@@ -2,270 +2,532 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Leitura de ensaios</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Leitor de Ensaios — Scroll Contínuo</title>
 
-<!-- PDF.js CDN -->
+<!-- PDF.js (CDN) -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-<script>
-pdfjsLib.GlobalWorkerOptions.workerSrc =
-  "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
-</script>
+<script>pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";</script>
 
 <style>
 :root{
-  --bg:#0b1220; --fg:#e6eef6; --muted:#9aa7b2;
-  --accent:#2dd4bf; --panel:#07101a;
+  --bg:#0b1220; --fg:#e6eef6; --muted:#9aa7b2; --accent:#2dd4bf;
+  --panel:#07101a; --glass: rgba(255,255,255,0.04);
 }
 [data-theme="light"]{
-  --bg:#ffffff; --fg:#111827; --muted:#6b7280;
-  --accent:#0ea5a4; --panel:#f8fafc;
+  --bg:#ffffff; --fg:#0b1220; --muted:#6b7280; --accent:#0ea5a4; --panel:#f8fafc; --glass: rgba(0,0,0,0.04);
 }
 *{box-sizing:border-box}
-body{
-  margin:0;background:var(--bg);color:var(--fg);
-  font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+html,body{height:100%;margin:0;background:var(--bg);color:var(--fg);font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;}
+a{color:var(--accent)}
+/* Layout */
+.app{
+  display:grid;
+  grid-template-columns: 260px 1fr 360px; /* mini / content / notes */
+  grid-template-rows: 1fr;
+  height:100vh;
+  gap:12px;
+  padding:12px;
 }
-.viewer-root{
-  height:100vh;display:flex;flex-direction:column;align-items:stretch;
+@media (max-width:1100px){
+  .app{grid-template-columns: 1fr; grid-template-rows: auto 1fr auto; padding:8px;}
+  .sidebar-left,.sidebar-right{order:2}
+  .viewer-col{order:1}
 }
-
-/* Top controls */
+/* Top controls floating */
 .topbar{
-  position:fixed;left:50%;transform:translateX(-50%);
-  top:12px;background:rgba(0,0,0,0.45);
-  backdrop-filter:blur(6px);padding:8px 12px;border-radius:10px;
-  display:flex;gap:8px;align-items:center;
-  z-index:1200;opacity:0;transition:opacity .18s ease,transform .18s ease;
+  position:fixed;left:50%;transform:translateX(-50%);top:14px;
+  background:var(--glass);backdrop-filter:blur(6px);padding:8px 12px;border-radius:12px;
+  display:flex;gap:8px;align-items:center;z-index:1300;opacity:0;transition:all .18s ease;
 }
-.topbar.visible{
-  opacity:1;transform:translateX(-50%) translateY(0);
+.topbar.visible{opacity:1}
+.btn{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--fg);padding:8px 10px;border-radius:8px;cursor:pointer}
+.btn:hover{background:rgba(255,255,255,0.02)}
+.small{font-size:13px;color:var(--muted)}
+/* Left sidebar - thumbnails */
+.sidebar-left{
+  background:var(--panel);padding:12px;border-radius:12px;overflow:auto;
+  box-shadow:0 10px 30px rgba(0,0,0,0.25);
 }
-.topbar button{
-  background:transparent;border:1px solid rgba(255,255,255,0.06);
-  color:var(--fg);padding:8px 10px;border-radius:8px;cursor:pointer;
+.thumb{display:flex;flex-direction:column;gap:6px;margin-bottom:10px;cursor:pointer}
+.thumb img{width:100%;height:140px;object-fit:cover;border-radius:6px;display:block}
+.thumb .ttl{font-weight:600;font-size:14px;color:var(--fg);padding:6px 0}
+/* Viewer column (center) */
+.viewer-col{
+  background:transparent;overflow:auto;padding:28px;border-radius:12px;
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
 }
-
-/* central viewer */
-.viewer-area{
-  flex:1;display:flex;align-items:center;justify-content:center;
-  padding:64px 24px 120px 24px;overflow:auto;
+.viewer-content{width:calc(100% - 64px);max-width:960px}
+.page{position:relative;margin:18px 0;display:block}
+canvas{width:100%;height:auto;display:block;border-radius:6px;box-shadow:0 18px 40px rgba(2,6,23,0.35)}
+/* text layer overlay */
+.textLayer{position:absolute;left:0;top:0;right:0;bottom:0;pointer-events:auto;user-select:text}
+.highlight{background:var(--accent);color:var(--bg);padding:0 2px;border-radius:3px}
+/* Right sidebar - notes */
+.sidebar-right{
+  background:var(--panel);padding:12px;border-radius:12px;overflow:auto;
+  box-shadow:0 10px 30px rgba(0,0,0,0.25);
 }
-.pdf-page{
-  box-shadow:0 18px 40px rgba(2,6,23,0.5);
-  border-radius:8px;overflow:hidden;
+.note{background:rgba(0,0,0,0.05);padding:10px;border-radius:8px;margin-bottom:10px}
+.note .snippet{font-weight:700;margin-bottom:6px}
+.ctrl-row{display:flex;gap:8px;align-items:center;margin-bottom:8px}
+.input,textarea{width:100%;padding:8px;border-radius:6px;border:1px solid rgba(0,0,0,0.06);background:transparent;color:var(--fg)}
+textarea{min-height:90px;resize:vertical}
+/* search highlight */
+.search-highlight{background:rgba(255,217,102,0.85);color:#111;padding:0 2px;border-radius:2px}
+/* small helpers */
+.center{display:flex;align-items:center;justify-content:center;flex-direction:column}
+.kv{font-size:13px;color:var(--muted)}
+/* mobile adjustments */
+@media (max-width:1100px){
+  .sidebar-left,.sidebar-right{display:none}
+  .viewer-content{width:100%}
 }
-
-/* placeholders */
-.placeholder{
-  display:flex;flex-direction:column;align-items:center;
-  justify-content:center;gap:18px;color:var(--muted);
-}
-.center-msg{
-  background:rgba(0,0,0,0.25);padding:22px;border-radius:12px;
-  text-align:center;max-width:720px;
-}
-
-/* side page buttons */
-.side-btn{
-  position:fixed;top:50%;transform:translateY(-50%);
-  background:rgba(0,0,0,0.25);
-  border:1px solid rgba(255,255,255,0.06);
-  color:var(--fg);padding:14px;border-radius:10px;cursor:pointer;
-  backdrop-filter:blur(4px);z-index:1200;font-size:20px;
-}
-.side-btn.left{left:14px;}
-.side-btn.right{right:14px;}
-.side-btn:hover{background:rgba(0,0,0,0.45)}
-
-/* spinner */
-.spinner{
-  width:64px;height:64px;border-radius:50%;
-  display:inline-block;position:relative
-}
-.spinner:before{
-  content:"";box-sizing:border-box;position:absolute;
-  inset:0;border-radius:50%;
-  border:6px solid rgba(255,255,255,0.08);
-  border-top-color:var(--accent);animation:spin 1s linear infinite
-}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-/* misc */
-.small{font-size:14px;color:var(--muted)}
-canvas{max-width:100%;height:auto;display:block}
 </style>
 </head>
 <body>
 
-<div class="viewer-root" id="root">
+<!-- Topbar (hidden until hover near top) -->
+<div id="topbar" class="topbar" aria-hidden="true">
+  <button id="zoomOut" class="btn">−</button>
+  <button id="zoomIn" class="btn">＋</button>
+  <button id="btnDownload" class="btn">Baixar</button>
+  <div style="width:12px"></div>
+  <input id="searchInput" placeholder="Buscar no ensaio (enter)" style="padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:var(--fg)" />
+  <button id="btnClearSearch" class="btn">Limpar</button>
+  <div style="width:12px"></div>
+  <div class="small">Ensaio <strong id="ensId">?</strong></div>
+</div>
 
-  <!-- TOPBAR -->
-  <div id="topbar" class="topbar" aria-hidden="true">
-    <button id="btnZoomOut">−</button>
-    <button id="btnZoomIn">＋</button>
-    <button id="btnDownload">Baixar</button>
+<div class="app">
+  <!-- LEFT: thumbnails -->
+  <aside class="sidebar-left" id="thumbs" aria-label="Miniaturas">
+    <div class="small" style="margin-bottom:8px">Miniaturas</div>
+    <div id="thumbList"></div>
+  </aside>
 
-    <div style="width:12px"></div>
-    <div id="meta" class="small">ensaios <span id="ensId">?</span></div>
+  <!-- CENTER: viewer -->
+  <main class="viewer-col" id="viewerCol">
+    <div class="viewer-content" id="viewerContent" tabindex="0" aria-live="polite"></div>
+  </main>
 
-    <!-- BOTÕES DE ensaios -->
-    <button id="btnPrevEssay" style="margin-left:14px;">⬅ ensaios</button>
-    <button id="btnNextEssay">ensaios ➡</button>
-  </div>
+  <!-- RIGHT: notes -->
+  <aside class="sidebar-right" id="notesPanel" aria-label="Notas">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+      <div><strong>Notas</strong><div class="kv">Selecione texto e clique em "Comentar trecho"</div></div>
+      <div style="display:flex;gap:6px">
+        <button id="exportNotes" class="btn">Exportar</button>
+        <button id="importNotes" class="btn">Importar</button>
+        <input id="importFile" type="file" accept=".json" style="display:none" />
+      </div>
+    </div>
 
-  <!-- PAGE NAV -->
-  <button id="prevBtn" class="side-btn left" title="Página anterior">◀</button>
-  <button id="nextBtn" class="side-btn right" title="Próxima página">▶</button>
+    <div style="margin-bottom:10px">
+      <button id="btnNewManual" class="btn">Criar nota manual</button>
+    </div>
 
-  <!-- VIEWER -->
-  <div class="viewer-area" id="viewerArea"></div>
+    <div id="notesList"></div>
+  </aside>
 </div>
 
 <script>
-// helpers
-const qs = s => document.querySelector(s);
+/* ====================
+  Leitor - Scroll Contínuo + Miniaturas + Busca + Notas
+  Convenção: /pdfs/ensaio{ID}.pdf
+  Dependência: pdf.js via CDN (já carregado)
+   ==================== */
 
-// ensaios ID
 const params = new URLSearchParams(window.location.search);
-const id = params.get('id') || '1';
-qs('#ensId').innerText = id;
+const ensId = params.get('id') || '1';
+document.getElementById('ensId').innerText = ensId;
 
-// path do PDF
-const pdfPath = '/pdfs/ensaio' + id + '.pdf';
+const PDF_URL = '/pdfs/ensaio' + ensId + '.pdf'; // convention
+const viewerContent = document.getElementById('viewerContent');
+const thumbList = document.getElementById('thumbList');
+const topbar = document.getElementById('topbar');
+const searchInput = document.getElementById('searchInput');
+const btnClearSearch = document.getElementById('btnClearSearch');
+const zoomInBtn = document.getElementById('zoomIn');
+const zoomOutBtn = document.getElementById('zoomOut');
+const btnDownload = document.getElementById('btnDownload');
+const exportNotesBtn = document.getElementById('exportNotes');
+const importNotesBtn = document.getElementById('importNotes');
+const importFileInput = document.getElementById('importFile');
+const notesList = document.getElementById('notesList');
+const btnNewManual = document.getElementById('btnNewManual');
 
-// refs
-const viewerArea = qs('#viewerArea');
-const topbar = qs('#topbar');
-const prevBtn = qs('#prevBtn');
-const nextBtn = qs('#nextBtn');
-const btnZoomIn = qs('#btnZoomIn');
-const btnZoomOut = qs('#btnZoomOut');
-const btnDownload = qs('#btnDownload');
-const btnPrevEssay = qs('#btnPrevEssay');
-const btnNextEssay = qs('#btnNextEssay');
-
-// tema automático
-(function(){
-  const h = new Date().getHours();
-  if(h>=6 && h<18) document.documentElement.setAttribute('data-theme','light');
-  else document.documentElement.removeAttribute('data-theme');
-})();
-
-// mostrar topbar
+/* UI: show topbar on mouse near top */
 let topTimer = null;
-document.addEventListener('mousemove', e => {
-  if(e.clientY < 140){
+document.addEventListener('mousemove', (e)=>{
+  if(e.clientY < 120){
     topbar.classList.add('visible');
     topbar.setAttribute('aria-hidden','false');
-
     clearTimeout(topTimer);
-    topTimer = setTimeout(()=>{
-      topbar.classList.remove('visible');
-      topbar.setAttribute('aria-hidden','true');
-    }, 2200);
+    topTimer = setTimeout(()=>{ topbar.classList.remove('visible'); topbar.setAttribute('aria-hidden','true'); }, 3000);
   }
 });
 
-// PDF.js
+/* Theme automatic */
+(function(){ const h=new Date().getHours(); if(h>=6 && h<18) document.documentElement.setAttribute('data-theme','light'); else document.documentElement.removeAttribute('data-theme'); })();
+
+/* Storage key for notes */
+const NOTES_KEY = 'ensaio:notes:' + ensId;
+
+/* State */
 let pdfDoc = null;
-let currentPage = 1;
-let totalPages = 1;
-let scale = 0.9;
+let scale = 0.95;
+let pageItems = []; // holds {pageNumber, canvas, textLayerDiv}
+let currentSearchHighlights = [];
 
-// loading
+/* Utility */
+const qs = s => document.querySelector(s);
+const qsa = s => Array.from(document.querySelectorAll(s));
+const saveNotes = (arr)=> localStorage.setItem(NOTES_KEY, JSON.stringify(arr||[]));
+const loadNotes = ()=> { try{ const v=localStorage.getItem(NOTES_KEY); return v?JSON.parse(v):[];}catch(e){return []} };
+
+/* Show loading placeholder */
 function showLoading(){
-  viewerArea.innerHTML = `
-    <div class="placeholder">
-      <div class="spinner"></div>
-      <div class="small">Carregando...</div>
-    </div>
-  `;
+  viewerContent.innerHTML = `<div class="center"><div class="spinner" aria-hidden="true"></div><div class="small">Carregando ensaio...</div></div>`;
 }
 
-// unavailable
+/* Show unavailable */
 function showUnavailable(){
-  viewerArea.innerHTML = `
-    <div class="placeholder">
-      <div class="spinner"></div>
-      <div class="center-msg"><strong>ensaio ainda não disponível</strong>
-      <div class="small" style="margin-top:8px">
-      Este ensaio será adicionado em breve. Volte mais tarde.
-      </div></div>
-    </div>
-  `;
+  viewerContent.innerHTML = `<div class="center"><div class="center-msg"><strong>Ensaio ainda não disponível</strong><div class="kv" style="margin-top:8px">Este ensaio será adicionado em breve.</div></div></div>`;
 }
 
-// render page
-function renderPage(pg){
-  if(!pdfDoc) return;
+/* Render ALL pages in sequence (scroll) */
+async function renderAllPages(){
+  viewerContent.innerHTML = '';
+  pageItems = [];
+  const numPages = pdfDoc.numPages;
+  // prepare thumbnails container
+  thumbList.innerHTML = '';
+  for(let p=1;p<=numPages;p++){
+    // page container
+    const pageDiv = document.createElement('div');
+    pageDiv.className = 'page';
+    pageDiv.dataset.pagenum = p;
+    viewerContent.appendChild(pageDiv);
 
-  pdfDoc.getPage(pg).then(page => {
+    // render canvas for screen
+    const page = await pdfDoc.getPage(p);
     const viewport = page.getViewport({ scale });
     const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-
     canvas.width = viewport.width;
     canvas.height = viewport.height;
-    canvas.className = 'pdf-page';
+    canvas.className = 'pdf-canvas';
+    pageDiv.appendChild(canvas);
+    const ctx = canvas.getContext('2d');
+    await page.render({ canvasContext: ctx, viewport }).promise;
 
-    viewerArea.innerHTML = '';
-    viewerArea.appendChild(canvas);
+    // textLayer overlay
+    const textLayerDiv = document.createElement('div');
+    textLayerDiv.className = 'textLayer';
+    textLayerDiv.style.width = canvas.style.width;
+    textLayerDiv.style.height = canvas.style.height;
+    pageDiv.appendChild(textLayerDiv);
 
-    page.render({ canvasContext: ctx, viewport });
-  });
+    // create text spans
+    const textContent = await page.getTextContent();
+    for(const item of textContent.items){
+      const span = document.createElement('span');
+      span.textContent = item.str;
+      span.setAttribute('data-str', item.str);
+      span.style.position = 'absolute';
+      // compute approximate position using transform & viewport (simple approach)
+      const tx = pdfjsLib.Util.transform(viewport.transform, item.transform);
+      const left = tx[4];
+      const top = tx[5];
+      const fontHeight = Math.abs(item.height) * (viewport.scale || scale) || (12*scale);
+      span.style.left = (left) + 'px';
+      span.style.top = (viewport.height - top - fontHeight) + 'px';
+      span.style.fontSize = (fontHeight) + 'px';
+      span.style.lineHeight = '1';
+      span.style.whiteSpace = 'pre';
+      span.style.color = 'transparent';
+      span.style.webkitTextFillColor = 'transparent';
+      textLayerDiv.appendChild(span);
+    }
+
+    // create thumbnail (small canvas)
+    const thumbCanvas = document.createElement('canvas');
+    const tctx = thumbCanvas.getContext('2d');
+    // draw small thumb synchronously by scaling down the canvas image
+    // We'll reuse the rendered canvas's data
+    thumbCanvas.width = 260;
+    thumbCanvas.height = Math.round(260 * (viewport.height/viewport.width));
+    tctx.drawImage(canvas, 0,0, thumbCanvas.width, thumbCanvas.height);
+    const thumbWrap = document.createElement('div');
+    thumbWrap.className = 'thumb';
+    thumbWrap.appendChild(thumbCanvas);
+    const ttl = document.createElement('div'); ttl.className='ttl'; ttl.textContent = 'Página ' + p;
+    thumbWrap.appendChild(ttl);
+    thumbWrap.addEventListener('click', ()=> {
+      // scroll to pageDiv
+      pageDiv.scrollIntoView({behavior:'smooth', block:'center'});
+    });
+    thumbList.appendChild(thumbWrap);
+
+    pageItems.push({pageNumber:p, canvas, textLayerDiv, pageDiv});
+  }
+
+  // restore highlights and notes
+  restoreNotesAndHighlights();
 }
 
-// LOAD PDF
+/* initial load */
 showLoading();
-pdfjsLib.getDocument(pdfPath).promise.then(pdf => {
+pdfjsLib.getDocument(PDF_URL).promise.then(async pdf => {
   pdfDoc = pdf;
-  totalPages = pdf.numPages;
-  renderPage(currentPage);
-}).catch(err => {
-  console.warn(err);
+  await renderAllPages();
+}).catch(err=>{
+  console.warn('pdf load err', err);
   showUnavailable();
 });
 
-// ZOOM
-btnZoomIn.addEventListener('click', () => {
+/* RE-RENDER (on zoom) */
+async function rerenderAllPages(){
+  if(!pdfDoc) return;
+  // remember scroll position relative to first visible page
+  const prevScrollTop = viewerContent.scrollTop;
+  await renderAllPages();
+  // try to restore scroll position
+  viewerContent.scrollTop = prevScrollTop;
+}
+
+/* ZOOM controls */
+zoomInBtn.addEventListener('click', ()=> {
   scale = Math.min(3, scale + 0.15);
-  renderPage(currentPage);
+  rerenderAllPages();
 });
-btnZoomOut.addEventListener('click', () => {
-  scale = Math.max(0.4, scale - 0.15);
-  renderPage(currentPage);
-});
-
-// Download
-btnDownload.addEventListener('click', () => {
-  window.open(pdfPath, '_blank');
+zoomOutBtn.addEventListener('click', ()=> {
+  scale = Math.max(0.45, scale - 0.15);
+  rerenderAllPages();
 });
 
-// PAGE NAV
-prevBtn.addEventListener('click', () => {
-  if(currentPage > 1){
-    currentPage--;
-    renderPage(currentPage);
+/* DOWNLOAD */
+btnDownload.addEventListener('click', ()=> {
+  window.open(PDF_URL, '_blank');
+});
+
+/* SEARCH: highlight occurrences across textLayers */
+function clearSearchHighlights(){
+  currentSearchHighlights.forEach(el => {
+    el.classList.remove('search-highlight');
+  });
+  currentSearchHighlights = [];
+}
+searchInput.addEventListener('keydown', (e)=>{
+  if(e.key === 'Enter'){
+    const q = (searchInput.value || '').trim();
+    clearSearchHighlights();
+    if(!q) return;
+    // naive search across spans
+    const re = new RegExp(escapeRegExp(q), 'ig');
+    pageItems.forEach(pi => {
+      const spans = Array.from(pi.textLayerDiv.children);
+      spans.forEach(sp => {
+        const text = sp.textContent || '';
+        if(re.test(text)){
+          // wrap matched substring with mark (create overlay)
+          const parent = sp.parentElement;
+          const rect = sp.getBoundingClientRect();
+          // create visual highlight by cloning span and styling
+          const highlight = document.createElement('span');
+          highlight.textContent = text;
+          highlight.className = 'search-highlight';
+          highlight.style.position = 'absolute';
+          highlight.style.left = sp.style.left;
+          highlight.style.top = sp.style.top;
+          highlight.style.fontSize = sp.style.fontSize;
+          highlight.style.pointerEvents = 'none';
+          parent.appendChild(highlight);
+          currentSearchHighlights.push(highlight);
+        }
+      });
+    });
   }
 });
-nextBtn.addEventListener('click', () => {
-  if(currentPage < totalPages){
-    currentPage++;
-    renderPage(currentPage);
-  }
+btnClearSearch.addEventListener('click', ()=> { searchInput.value=''; clearSearchHighlights(); });
+
+/* NOTES: selection -> create note */
+let lastRange = null;
+document.addEventListener('mouseup', (ev)=>{
+  try{
+    const sel = window.getSelection();
+    if(!sel || sel.isCollapsed) return;
+    const text = sel.toString().trim();
+    if(!text) return;
+    // ensure selection inside viewerContent
+    if(!viewerContent.contains(sel.anchorNode) && !viewerContent.contains(sel.focusNode)) return;
+    lastRange = sel.getRangeAt(0).cloneRange();
+    // show tiny floating action (we'll use prompt for simplicity)
+    setTimeout(()=>{
+      openNoteEditor(text, lastRange);
+      window.getSelection().removeAllRanges();
+    }, 50);
+  }catch(e){console.warn(e)}
 });
 
-// ensaios NAV
-btnPrevEssay.addEventListener('click', () => {
-  const n = Number(id) - 1;
-  if(n >= 1) window.location.href = 'ensaios.html?id=' + n;
+/* Create note editor dialog (simple modal) */
+function openNoteEditor(snippet, range){
+  const title = prompt('Criar nota para o trecho selecionado (deixe em branco para cancelar):', snippet.slice(0,120));
+  if(title === null) return;
+  const body = prompt('Comentário (opcional):','');
+  const note = {
+    id: 'n_' + Date.now().toString(36),
+    snippet: snippet,
+    body: body || '',
+    createdAt: (new Date()).toISOString()
+  };
+  const notes = loadNotes();
+  notes.unshift(note);
+  saveNotes(notes);
+  renderNotesList();
+  highlightSnippet(note);
+}
+
+/* Manual create */
+btnNewManual.addEventListener('click', ()=>{
+  const snippet = prompt('Trecho (colar ou escrever):','');
+  if(!snippet) return;
+  const body = prompt('Comentário (opcional):','');
+  const note = { id: 'n_' + Date.now().toString(36), snippet, body: body||'', createdAt:(new Date()).toISOString() };
+  const arr = loadNotes(); arr.unshift(note); saveNotes(arr);
+  renderNotesList(); highlightSnippet(note);
 });
-btnNextEssay.addEventListener('click', () => {
-  const n = Number(id) + 1;
-  window.location.href = 'ensaios.html?id=' + n;
+
+/* Render notes list */
+function renderNotesList(){
+  const arr = loadNotes();
+  notesList.innerHTML = '';
+  if(!arr.length){ notesList.innerHTML = '<div class="kv">Nenhuma nota. Selecione um trecho para criar a primeira nota.</div>'; return; }
+  arr.forEach(n=>{
+    const div = document.createElement('div'); div.className = 'note';
+    div.innerHTML = `<div class="snippet">${escapeHtml(n.snippet)}</div><div>${escapeHtml(n.body)}</div><div class="kv" style="margin-top:8px">${new Date(n.createdAt).toLocaleString()}</div>
+    <div style="display:flex;gap:8px;margin-top:8px">
+      <button class="btn goto" data-id="${n.id}">Ir ao trecho</button>
+      <button class="btn export" data-id="${n.id}">Exportar</button>
+      <button class="btn del" data-id="${n.id}">Excluir</button>
+    </div>`;
+    notesList.appendChild(div);
+  });
+  // handlers
+  qsa('.btn.goto').forEach(b=>{
+    b.onclick = ()=>{
+      const id = b.dataset.id;
+      const arr = loadNotes();
+      const note = arr.find(x=>x.id===id);
+      if(note) scrollToSnippet(note.snippet);
+    };
+  });
+  qsa('.btn.export').forEach(b=>{
+    b.onclick = ()=>{
+      const id = b.dataset.id;
+      const arr = loadNotes();
+      const note = arr.find(x=>x.id===id);
+      if(!note) return;
+      const blob = new Blob([JSON.stringify(note, null, 2)], {type:'application/json'});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `nota-${note.id}.json`;
+      a.click();
+    };
+  });
+  qsa('.btn.del').forEach(b=>{
+    b.onclick = ()=>{
+      const id = b.dataset.id;
+      let arr = loadNotes();
+      arr = arr.filter(x=>x.id!==id);
+      saveNotes(arr); renderNotesList();
+      // remove highlights (re-render)
+      rerenderAllPages();
+    };
+  });
+}
+
+/* highlight a snippet across pages (best-effort) */
+function highlightSnippet(note){
+  const snippet = note.snippet.trim();
+  if(!snippet) return;
+  pageItems.forEach(pi=>{
+    const spans = Array.from(pi.textLayerDiv.children);
+    spans.forEach(sp=>{
+      const txt = sp.textContent || '';
+      if(txt.toLowerCase().includes(snippet.toLowerCase())){
+        // overlay highlight at same position
+        const h = document.createElement('span');
+        h.className = 'highlight';
+        h.textContent = snippet;
+        h.style.position = 'absolute';
+        h.style.left = sp.style.left;
+        h.style.top = sp.style.top;
+        h.style.fontSize = sp.style.fontSize;
+        h.style.pointerEvents = 'none';
+        pi.textLayerDiv.appendChild(h);
+      }
+    });
+  });
+}
+
+/* restore on load */
+function restoreNotesAndHighlights(){
+  renderNotesList();
+  const arr = loadNotes();
+  arr.forEach(n=> highlightSnippet(n) );
+}
+
+/* scroll to snippet */
+function scrollToSnippet(snippet){
+  for(const pi of pageItems){
+    const spans = Array.from(pi.textLayerDiv.children);
+    for(const sp of spans){
+      if((sp.textContent||'').toLowerCase().includes(snippet.toLowerCase())){
+        pi.pageDiv.scrollIntoView({behavior:'smooth', block:'center'});
+        return;
+      }
+    }
+  }
+  alert('Trecho não encontrado (tente refinar a busca).');
+}
+
+/* export/import notes */
+exportNotesBtn.addEventListener('click', ()=>{
+  const data = loadNotes();
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `notas-ensaio-${ensId}.json`;
+  a.click();
 });
+importNotesBtn.addEventListener('click', ()=> importFileInput.click());
+importFileInput.addEventListener('change', (ev)=>{
+  const f = ev.target.files[0];
+  if(!f) return;
+  const r = new FileReader();
+  r.onload = e=>{
+    try{
+      const data = JSON.parse(e.target.result);
+      if(!Array.isArray(data)) throw new Error('Formato inválido');
+      const existing = loadNotes();
+      const merged = [...data, ...existing];
+      saveNotes(merged);
+      renderNotesList(); restoreNotesAndHighlights();
+      alert('Importado com sucesso');
+    }catch(err){ alert('Erro: ' + err.message) }
+  };
+  r.readAsText(f);
+});
+
+/* helper escape */
+function escapeHtml(s){ return (s||'').replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+function escapeRegExp(s){ return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); }
+
+/* simple floating share (context) - optional removed for brevity */
+
+/* initialize notes UI */
+renderNotesList();
+
 </script>
-
 </body>
 </html>
