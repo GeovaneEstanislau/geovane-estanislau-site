@@ -2,172 +2,179 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Leitura do Ensaio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Leitura de Ensaio</title>
 
-<!-- PDF.js (CDN oficial da Mozilla – funciona no GitHub Pages) -->
+<!-- PDF.js CDN -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-<script>
-pdfjsLib.GlobalWorkerOptions.workerSrc =
-  "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
-</script>
+<script>pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";</script>
 
 <style>
-body {
-    margin: 0;
-    background: #111;
-    color: #eee;
-    font-family: Arial, sans-serif;
-}
-#viewer-container {
-    width: 100vw;
-    height: 100vh;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-canvas {
-    margin: 20px 0;
-    box-shadow: 0 0 20px #000;
-}
-#topbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 50px;
-    background: rgba(0,0,0,0.75);
-    backdrop-filter: blur(6px);
-    display: flex;
-    align-items: center;
-    padding: 0 15px;
-    z-index: 1000;
-}
-#topbar button {
-    margin-right: 10px;
-    padding: 7px 12px;
-    background: #222;
-    border: 1px solid #333;
-    border-radius: 6px;
-    color: #eee;
-    cursor: pointer;
-}
-#topbar button:hover {
-    background: #444;
-}
-#title {
-    color: #fff;
-    font-weight: bold;
-    margin-left: auto;
-    opacity: .8;
-}
-</style>
+:root{ --bg:#0b1220; --fg:#e6eef6; --muted:#9aa7b2; --accent:#2dd4bf; --panel:#07101a; }
+[data-theme="light"]{ --bg:#ffffff; --fg:#111827; --muted:#6b7280; --accent:#0ea5a4; --panel:#f8fafc; }
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;}
+.viewer-root{height:100vh;display:flex;flex-direction:column;align-items:stretch;}
 
+/* Top controls (hidden until hover near top) */
+.topbar{position:fixed;left:50%;transform:translateX(-50%);top:12px;background:rgba(0,0,0,0.45);backdrop-filter:blur(6px);padding:8px 12px;border-radius:10px;display:flex;gap:8px;align-items:center;z-index:1200;opacity:0;transition:opacity .18s ease,transform .18s ease;}
+.topbar.visible{opacity:1;transform:translateX(-50%) translateY(0);}
+/* Buttons */
+.topbar button{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--fg);padding:8px 10px;border-radius:8px;cursor:pointer;}
+
+/* Viewer area */
+.viewer-area{flex:1;display:flex;align-items:center;justify-content:center;padding:64px 24px 120px 24px;overflow:auto;}
+.pdf-page{box-shadow:0 18px 40px rgba(2,6,23,0.5);border-radius:8px;overflow:hidden;}
+
+/* Message when no PDF */
+.placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;color:var(--muted);}
+
+/* big centered message */
+.center-msg{background:rgba(0,0,0,0.25);padding:22px;border-radius:12px;text-align:center;max-width:720px;}
+
+/* translucent side nav buttons */
+.side-btn{position:fixed;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.06);color:var(--fg);padding:14px;border-radius:10px;cursor:pointer;backdrop-filter:blur(4px);z-index:1200;}
+.side-btn.left{left:14px;}
+.side-btn.right{right:14px;}
+.side-btn:hover{background:rgba(0,0,0,0.45)}
+
+/* spinner */
+.spinner{width:64px;height:64px;border-radius:50%;display:inline-block;position:relative}
+.spinner:before{content:"";box-sizing:border-box;position:absolute;inset:0;border-radius:50%;border:6px solid rgba(255,255,255,0.08);border-top-color:var(--accent);animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* small helper */
+.small{font-size:14px;color:var(--muted)}
+
+/* responsive canvas */
+canvas{max-width:100%;height:auto;display:block}
+</style>
 </head>
 <body>
 
-<div id="topbar">
-    <button id="prev">◀</button>
-    <button id="next">▶</button>
-    <button id="zoomIn">＋</button>
-    <button id="zoomOut">－</button>
+<div class="viewer-root" id="root">
+  <div id="topbar" class="topbar" aria-hidden="true">
+    <button id="btnZoomOut">−</button>
+    <button id="btnZoomIn">＋</button>
+    <button id="btnDownload">Baixar</button>
+    <div style="width:12px"></div>
+    <div id="meta" class="small">Ensaio <span id="ensId">?</span></div>
+  </div>
 
-    <div id="title">Carregando...</div>
-</div>
+  <button id="prevBtn" class="side-btn left" title="Ensaio anterior">◀</button>
+  <button id="nextBtn" class="side-btn right" title="Próximo ensaio">▶</button>
 
-<div id="viewer-container">
-    <div id="viewer"></div>
+  <div class="viewer-area" id="viewerArea">
+    <!-- PDF canvas will be injected here -->
+  </div>
 </div>
 
 <script>
-/* ------------------------------
-   1) Coleta ID da URL
---------------------------------*/
+// small helpers
+const qs = s => document.querySelector(s);
+
+// ID from URL
 const params = new URLSearchParams(window.location.search);
-const id = params.get("id") || "1";
+const id = params.get('id') || '1';
+qs('#ensId').innerText = id;
 
-/* ------------------------------
-   2) Define caminho do PDF
---------------------------------*/
-const pdfUrl = "pdfs/ensaio" + id + ".pdf";
+// pdf path convention
+const pdfPath = '/pdfs/ensaio' + id + '.pdf';
 
-/* Título dinâmico */
-document.getElementById("title").innerText = "Ensaio " + id;
+// UI refs
+const viewerArea = qs('#viewerArea');
+const topbar = qs('#topbar');
+const prevBtn = qs('#prevBtn');
+const nextBtn = qs('#nextBtn');
+const btnZoomIn = qs('#btnZoomIn');
+const btnZoomOut = qs('#btnZoomOut');
+const btnDownload = qs('#btnDownload');
 
-/* ------------------------------
-   3) Configurações básicas do PDF
---------------------------------*/
+// theme auto (light day / dark night)
+(function applyThemeAuto(){
+  const now = new Date();
+  const h = now.getHours();
+  if(h>=6 && h<18) document.documentElement.setAttribute('data-theme','light');
+  else document.documentElement.removeAttribute('data-theme');
+})();
+
+// show topbar on mouse near top
+let topTimer = null;
+document.addEventListener('mousemove', (e)=>{
+  if(e.clientY < 140){
+    topbar.classList.add('visible');
+    topbar.setAttribute('aria-hidden','false');
+    clearTimeout(topTimer);
+    topTimer = setTimeout(()=>{ topbar.classList.remove('visible'); topbar.setAttribute('aria-hidden','true'); }, 3000);
+  }
+});
+
+// navigation
+function goTo(newId){
+  const n = Number(newId);
+  if(isNaN(n) || n<1) return;
+  window.location.href = location.pathname + '?id=' + n;
+}
+prevBtn.addEventListener('click', ()=> goTo(Number(id)-1) );
+nextBtn.addEventListener('click', ()=> goTo(Number(id)+1) );
+
+// download button
+btnDownload.addEventListener('click', ()=> { window.open(pdfPath, '_blank'); } );
+
+// zoom control
+let scale = 1.25;
+btnZoomIn.addEventListener('click', ()=> { scale = Math.min(3, scale + 0.15); renderPage(currentPage); });
+btnZoomOut.addEventListener('click', ()=> { scale = Math.max(0.5, scale - 0.15); renderPage(currentPage); });
+
+// PDF.js loading and rendering
 let pdfDoc = null;
 let currentPage = 1;
-let scale = 1.25;
 
-/* Elementos */
-const viewer = document.getElementById("viewer");
-const prevBtn = document.getElementById("prev");
-const nextBtn = document.getElementById("next");
-const zoomInBtn = document.getElementById("zoomIn");
-const zoomOutBtn = document.getElementById("zoomOut");
-
-/* ------------------------------
-   4) Renderiza página
---------------------------------*/
-function renderPage(num) {
-    pdfDoc.getPage(num).then(function(page) {
-        const viewport = page.getViewport({ scale: scale });
-        const canvas = document.createElement("canvas");
-        const ctx = canvas.getContext("2d");
-
-        canvas.width = viewport.width;
-        canvas.height = viewport.height;
-
-        viewer.innerHTML = "";
-        viewer.appendChild(canvas);
-
-        page.render({
-            canvasContext: ctx,
-            viewport: viewport
-        });
-    });
+function showLoading(){
+  viewerArea.innerHTML = `
+    <div class="placeholder">
+      <div class="spinner" aria-hidden="true"></div>
+      <div class="small">Carregando...</div>
+    </div>
+  `;
+}
+function showPlaceholderUnavailable(){
+  viewerArea.innerHTML = `
+    <div class="placeholder">
+      <div class="spinner" aria-hidden="true"></div>
+      <div class="center-msg"><strong>Ensaio ainda não disponível</strong>
+      <div class="small" style="margin-top:8px">Este ensaio será adicionado em breve. Volte mais tarde.</div></div>
+    </div>
+  `;
 }
 
-/* ------------------------------
-    5) Navegação
---------------------------------*/
-prevBtn.onclick = () => {
-    if (currentPage <= 1) return;
-    currentPage--;
-    renderPage(currentPage);
-};
+function renderPage(pageNum){
+  if(!pdfDoc) return;
+  pdfDoc.getPage(pageNum).then(page=>{
+    const viewport = page.getViewport({ scale: scale });
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = viewport.width;
+    canvas.height = viewport.height;
+    canvas.className = 'pdf-page';
+    // clear viewer and append
+    viewerArea.innerHTML = '';
+    viewerArea.appendChild(canvas);
+    page.render({ canvasContext: ctx, viewport: viewport });
+  }).catch(err=>{
+    console.warn('render error', err);
+  });
+}
 
-nextBtn.onclick = () => {
-    if (currentPage >= pdfDoc.numPages) return;
-    currentPage++;
-    renderPage(currentPage);
-};
-
-zoomInBtn.onclick = () => {
-    scale += 0.15;
-    renderPage(currentPage);
-};
-
-zoomOutBtn.onclick = () => {
-    scale = Math.max(0.5, scale - 0.15);
-    renderPage(currentPage);
-};
-
-/* ------------------------------
-    6) Carrega PDF
---------------------------------*/
-pdfjsLib.getDocument(pdfUrl).promise.then(function(pdf) {
-    pdfDoc = pdf;
-    renderPage(currentPage);
-}).catch(err => {
-    viewer.innerHTML =
-      "<p style='color:white; padding:40px'>Não foi possível carregar o PDF do ensaio " +
-      id +
-      ".<br>Verifique se <strong>pdfs/ensaio" +
-      id + ".pdf</strong> existe no GitHub.</p>";
+// attempt to load PDF; on error show friendly placeholder
+showLoading();
+pdfjsLib.getDocument(pdfPath).promise.then(pdf=>{
+  pdfDoc = pdf;
+  renderPage(currentPage);
+}).catch(err=>{
+  console.warn('PDF load error:', err);
+  // don't expose technical details — show friendly state
+  showPlaceholderUnavailable();
 });
 </script>
 
