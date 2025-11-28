@@ -7,81 +7,134 @@
 
 <!-- PDF.js CDN -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-<script>pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";</script>
+<script>
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+  "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+</script>
 
 <style>
-:root{ --bg:#0b1220; --fg:#e6eef6; --muted:#9aa7b2; --accent:#2dd4bf; --panel:#07101a; }
-[data-theme="light"]{ --bg:#ffffff; --fg:#111827; --muted:#6b7280; --accent:#0ea5a4; --panel:#f8fafc; }
+:root{
+  --bg:#0b1220; --fg:#e6eef6; --muted:#9aa7b2;
+  --accent:#2dd4bf; --panel:#07101a;
+}
+[data-theme="light"]{
+  --bg:#ffffff; --fg:#111827; --muted:#6b7280;
+  --accent:#0ea5a4; --panel:#f8fafc;
+}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--fg);font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;}
-.viewer-root{height:100vh;display:flex;flex-direction:column;align-items:stretch;}
+body{
+  margin:0;background:var(--bg);color:var(--fg);
+  font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+}
+.viewer-root{
+  height:100vh;display:flex;flex-direction:column;align-items:stretch;
+}
 
-/* Top controls (hidden until hover near top) */
-.topbar{position:fixed;left:50%;transform:translateX(-50%);top:12px;background:rgba(0,0,0,0.45);backdrop-filter:blur(6px);padding:8px 12px;border-radius:10px;display:flex;gap:8px;align-items:center;z-index:1200;opacity:0;transition:opacity .18s ease,transform .18s ease;}
-.topbar.visible{opacity:1;transform:translateX(-50%) translateY(0);}
-/* Buttons */
-.topbar button{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--fg);padding:8px 10px;border-radius:8px;cursor:pointer;}
+/* Top controls */
+.topbar{
+  position:fixed;left:50%;transform:translateX(-50%);
+  top:12px;background:rgba(0,0,0,0.45);
+  backdrop-filter:blur(6px);padding:8px 12px;border-radius:10px;
+  display:flex;gap:8px;align-items:center;
+  z-index:1200;opacity:0;transition:opacity .18s ease,transform .18s ease;
+}
+.topbar.visible{
+  opacity:1;transform:translateX(-50%) translateY(0);
+}
+.topbar button{
+  background:transparent;border:1px solid rgba(255,255,255,0.06);
+  color:var(--fg);padding:8px 10px;border-radius:8px;cursor:pointer;
+}
 
-/* Viewer area */
-.viewer-area{flex:1;display:flex;align-items:center;justify-content:center;padding:64px 24px 120px 24px;overflow:auto;}
-.pdf-page{box-shadow:0 18px 40px rgba(2,6,23,0.5);border-radius:8px;overflow:hidden;}
+/* central viewer */
+.viewer-area{
+  flex:1;display:flex;align-items:center;justify-content:center;
+  padding:64px 24px 120px 24px;overflow:auto;
+}
+.pdf-page{
+  box-shadow:0 18px 40px rgba(2,6,23,0.5);
+  border-radius:8px;overflow:hidden;
+}
 
-/* Message when no PDF */
-.placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;color:var(--muted);}
+/* placeholders */
+.placeholder{
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:18px;color:var(--muted);
+}
+.center-msg{
+  background:rgba(0,0,0,0.25);padding:22px;border-radius:12px;
+  text-align:center;max-width:720px;
+}
 
-/* big centered message */
-.center-msg{background:rgba(0,0,0,0.25);padding:22px;border-radius:12px;text-align:center;max-width:720px;}
-
-/* translucent side nav buttons */
-.side-btn{position:fixed;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.06);color:var(--fg);padding:14px;border-radius:10px;cursor:pointer;backdrop-filter:blur(4px);z-index:1200;}
+/* side page buttons */
+.side-btn{
+  position:fixed;top:50%;transform:translateY(-50%);
+  background:rgba(0,0,0,0.25);
+  border:1px solid rgba(255,255,255,0.06);
+  color:var(--fg);padding:14px;border-radius:10px;cursor:pointer;
+  backdrop-filter:blur(4px);z-index:1200;font-size:20px;
+}
 .side-btn.left{left:14px;}
 .side-btn.right{right:14px;}
 .side-btn:hover{background:rgba(0,0,0,0.45)}
 
 /* spinner */
-.spinner{width:64px;height:64px;border-radius:50%;display:inline-block;position:relative}
-.spinner:before{content:"";box-sizing:border-box;position:absolute;inset:0;border-radius:50%;border:6px solid rgba(255,255,255,0.08);border-top-color:var(--accent);animation:spin 1s linear infinite}
+.spinner{
+  width:64px;height:64px;border-radius:50%;
+  display:inline-block;position:relative
+}
+.spinner:before{
+  content:"";box-sizing:border-box;position:absolute;
+  inset:0;border-radius:50%;
+  border:6px solid rgba(255,255,255,0.08);
+  border-top-color:var(--accent);animation:spin 1s linear infinite
+}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-/* small helper */
+/* misc */
 .small{font-size:14px;color:var(--muted)}
-
-/* responsive canvas */
 canvas{max-width:100%;height:auto;display:block}
 </style>
 </head>
 <body>
 
 <div class="viewer-root" id="root">
+
+  <!-- TOPBAR -->
   <div id="topbar" class="topbar" aria-hidden="true">
     <button id="btnZoomOut">−</button>
     <button id="btnZoomIn">＋</button>
     <button id="btnDownload">Baixar</button>
+
     <div style="width:12px"></div>
     <div id="meta" class="small">Ensaio <span id="ensId">?</span></div>
+
+    <!-- BOTÕES DE ENSAIO -->
+    <button id="btnPrevEssay" style="margin-left:14px;">⬅ Ensaio</button>
+    <button id="btnNextEssay">Ensaio ➡</button>
   </div>
 
-  <button id="prevBtn" class="side-btn left" title="Ensaio anterior">◀</button>
-  <button id="nextBtn" class="side-btn right" title="Próximo ensaio">▶</button>
+  <!-- PAGE NAV -->
+  <button id="prevBtn" class="side-btn left" title="Página anterior">◀</button>
+  <button id="nextBtn" class="side-btn right" title="Próxima página">▶</button>
 
-  <div class="viewer-area" id="viewerArea">
-    <!-- PDF canvas will be injected here -->
-  </div>
+  <!-- VIEWER -->
+  <div class="viewer-area" id="viewerArea"></div>
 </div>
 
 <script>
-// small helpers
+// helpers
 const qs = s => document.querySelector(s);
 
-// ID from URL
+// ensaio ID
 const params = new URLSearchParams(window.location.search);
 const id = params.get('id') || '1';
 qs('#ensId').innerText = id;
 
-// pdf path convention
+// path do PDF
 const pdfPath = '/pdfs/ensaio' + id + '.pdf';
 
-// UI refs
+// refs
 const viewerArea = qs('#viewerArea');
 const topbar = qs('#topbar');
 const prevBtn = qs('#prevBtn');
@@ -89,61 +142,66 @@ const nextBtn = qs('#nextBtn');
 const btnZoomIn = qs('#btnZoomIn');
 const btnZoomOut = qs('#btnZoomOut');
 const btnDownload = qs('#btnDownload');
+const btnPrevEssay = qs('#btnPrevEssay');
+const btnNextEssay = qs('#btnNextEssay');
 
-// theme auto (light day / dark night)
-(function applyThemeAuto(){
-  const now = new Date();
-  const h = now.getHours();
+// tema automático
+(function(){
+  const h = new Date().getHours();
   if(h>=6 && h<18) document.documentElement.setAttribute('data-theme','light');
   else document.documentElement.removeAttribute('data-theme');
 })();
 
-
-// show topbar on mouse near top
+// mostrar topbar
 let topTimer = null;
-document.addEventListener('mousemove', (e)=>{
+document.addEventListener('mousemove', e => {
   if(e.clientY < 140){
     topbar.classList.add('visible');
     topbar.setAttribute('aria-hidden','false');
+
     clearTimeout(topTimer);
-    topTimer = setTimeout(()=>{ topbar.classList.remove('visible'); topbar.setAttribute('aria-hidden','true'); }, 2500);
+    topTimer = setTimeout(()=>{
+      topbar.classList.remove('visible');
+      topbar.setAttribute('aria-hidden','true');
+    }, 2200);
   }
 });
 
-
-// PDF.js loading and rendering
+// PDF.js
 let pdfDoc = null;
 let currentPage = 1;
 let totalPages = 1;
-let scale = 0.9;   // ZOOM INICIAL AJUSTADO
+let scale = 0.9;
 
-
+// loading
 function showLoading(){
   viewerArea.innerHTML = `
     <div class="placeholder">
-      <div class="spinner" aria-hidden="true"></div>
+      <div class="spinner"></div>
       <div class="small">Carregando...</div>
     </div>
   `;
 }
 
-function showPlaceholderUnavailable(){
+// unavailable
+function showUnavailable(){
   viewerArea.innerHTML = `
     <div class="placeholder">
-      <div class="spinner" aria-hidden="true"></div>
+      <div class="spinner"></div>
       <div class="center-msg"><strong>Ensaio ainda não disponível</strong>
-      <div class="small" style="margin-top:8px">Este ensaio será adicionado em breve. Volte mais tarde.</div></div>
+      <div class="small" style="margin-top:8px">
+      Este ensaio será adicionado em breve. Volte mais tarde.
+      </div></div>
     </div>
   `;
 }
 
-
-// render page N
-function renderPage(pageNum){
+// render page
+function renderPage(pg){
   if(!pdfDoc) return;
 
-  pdfDoc.getPage(pageNum).then(page=>{
-    const viewport = page.getViewport({ scale: scale });
+  pdfDoc.getPage(pg).then(page => {
+    const viewport = page.getViewport({ scale });
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
 
@@ -154,55 +212,60 @@ function renderPage(pageNum){
     viewerArea.innerHTML = '';
     viewerArea.appendChild(canvas);
 
-    page.render({ canvasContext: ctx, viewport: viewport });
+    page.render({ canvasContext: ctx, viewport });
   });
 }
 
-
-// Load PDF
+// LOAD PDF
 showLoading();
-pdfjsLib.getDocument(pdfPath).promise.then(pdf=>{
+pdfjsLib.getDocument(pdfPath).promise.then(pdf => {
   pdfDoc = pdf;
   totalPages = pdf.numPages;
-
   renderPage(currentPage);
-}).catch(err=>{
-  console.warn('PDF load error:', err);
-  showPlaceholderUnavailable();
+}).catch(err => {
+  console.warn(err);
+  showUnavailable();
 });
 
-
-// ZOOM BUTTONS
+// ZOOM
 btnZoomIn.addEventListener('click', () => {
   scale = Math.min(3, scale + 0.15);
   renderPage(currentPage);
 });
 btnZoomOut.addEventListener('click', () => {
-  scale = Math.max(0.5, scale - 0.15);
+  scale = Math.max(0.4, scale - 0.15);
   renderPage(currentPage);
 });
 
-// DOWNLOAD BUTTON
-btnDownload.addEventListener('click', ()=> {
+// Download
+btnDownload.addEventListener('click', () => {
   window.open(pdfPath, '_blank');
 });
 
-// PAGE NAVIGATION BUTTONS
+// PAGE NAV
 prevBtn.addEventListener('click', () => {
-  if (currentPage > 1) {
+  if(currentPage > 1){
     currentPage--;
     renderPage(currentPage);
   }
 });
-
 nextBtn.addEventListener('click', () => {
-  if (currentPage < totalPages) {
+  if(currentPage < totalPages){
     currentPage++;
     renderPage(currentPage);
   }
 });
-</script>
 
+// ENSAIO NAV
+btnPrevEssay.addEventListener('click', () => {
+  const n = Number(id) - 1;
+  if(n >= 1) window.location.href = 'ensaio.html?id=' + n;
+});
+btnNextEssay.addEventListener('click', () => {
+  const n = Number(id) + 1;
+  window.location.href = 'ensaio.html?id=' + n;
+});
+</script>
 
 </body>
 </html>
