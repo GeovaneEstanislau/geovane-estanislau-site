@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Leitura de Ensaio</title>
+<title>Leitura de ensaios</title>
 
 <!-- PDF.js CDN -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -107,11 +107,11 @@ canvas{max-width:100%;height:auto;display:block}
     <button id="btnDownload">Baixar</button>
 
     <div style="width:12px"></div>
-    <div id="meta" class="small">Ensaio <span id="ensId">?</span></div>
+    <div id="meta" class="small">ensaios <span id="ensId">?</span></div>
 
-    <!-- BOTÕES DE ENSAIO -->
-    <button id="btnPrevEssay" style="margin-left:14px;">⬅ Ensaio</button>
-    <button id="btnNextEssay">Ensaio ➡</button>
+    <!-- BOTÕES DE ensaios -->
+    <button id="btnPrevEssay" style="margin-left:14px;">⬅ ensaios</button>
+    <button id="btnNextEssay">ensaios ➡</button>
   </div>
 
   <!-- PAGE NAV -->
@@ -126,13 +126,13 @@ canvas{max-width:100%;height:auto;display:block}
 // helpers
 const qs = s => document.querySelector(s);
 
-// ensaio ID
+// ensaios ID
 const params = new URLSearchParams(window.location.search);
 const id = params.get('id') || '1';
 qs('#ensId').innerText = id;
 
 // path do PDF
-const pdfPath = '/pdfs/ensaio' + id + '.pdf';
+const pdfPath = '/pdfs/ensaios' + id + '.pdf';
 
 // refs
 const viewerArea = qs('#viewerArea');
@@ -188,7 +188,7 @@ function showUnavailable(){
   viewerArea.innerHTML = `
     <div class="placeholder">
       <div class="spinner"></div>
-      <div class="center-msg"><strong>Ensaio ainda não disponível</strong>
+      <div class="center-msg"><strong>ensaio ainda não disponível</strong>
       <div class="small" style="margin-top:8px">
       Este ensaio será adicionado em breve. Volte mais tarde.
       </div></div>
@@ -256,14 +256,14 @@ nextBtn.addEventListener('click', () => {
   }
 });
 
-// ENSAIO NAV
+// ensaios NAV
 btnPrevEssay.addEventListener('click', () => {
   const n = Number(id) - 1;
-  if(n >= 1) window.location.href = 'ensaio.html?id=' + n;
+  if(n >= 1) window.location.href = 'ensaios.html?id=' + n;
 });
 btnNextEssay.addEventListener('click', () => {
   const n = Number(id) + 1;
-  window.location.href = 'ensaio.html?id=' + n;
+  window.location.href = 'ensaios.html?id=' + n;
 });
 </script>
 
