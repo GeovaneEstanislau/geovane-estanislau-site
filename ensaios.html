@@ -4,21 +4,51 @@
 <meta charset="UTF-8" />
 <title>Leitura de Ensaio</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<style>
+.navbox {
+    position: fixed;
+    top: 12px;
+    right: 12px;
+    z-index: 999999;
+    background: rgba(0,0,0,0.45);
+    backdrop-filter: blur(6px);
+    padding: 10px 14px;
+    border-radius: 10px;
+    display: flex;
+    gap: 14px;
+    font-family: sans-serif;
+}
+.navbox a {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+}
+.navbox a:hover {
+    text-decoration: underline;
+}
+</style>
+
 </head>
 <body>
 
+<div id="nav" class="navbox">
+    <a id="prevLink" href="#">← Anterior</a>
+    <a id="nextLink" href="#">Próximo →</a>
+    <a href="/index.html">Índice</a>
+</div>
+
 <script>
-  // obtém ID da URL
   const params = new URLSearchParams(location.search);
-  const id = params.get("id") || "1";
+  let id = parseInt(params.get("id") || "1");
 
-  // monta path do PDF
+  // links
+  document.getElementById("prevLink").href = `/ensaio.html?id=${id > 1 ? id - 1 : 1}`;
+  document.getElementById("nextLink").href = `/ensaio.html?id=${id + 1}`;
+
+  // redirect to viewer
   const pdf = `/pdfs/ensaio${id}.pdf`;
-
-  // redireciona para o viewer oficial do PDF.js
-  const url = `/pdfjs/web/viewer.html?file=${encodeURIComponent(pdf)}`;
-
-  location.href = url;
+  location.href = `/pdfjs/web/viewer.html?file=${encodeURIComponent(pdf)}`;
 </script>
 
 </body>
