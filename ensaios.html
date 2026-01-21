@@ -1,3 +1,6 @@
+# ensaios.html
+
+```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -6,17 +9,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            margin: 0;
             font-family: "Segoe UI", Arial, sans-serif;
-            background: #0f0f0f;
-            color: #fff;
+            overflow: hidden;
+        }
+
+        /* Vídeo de fundo */
+        .video-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        /* Camada escura para leitura */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.55);
+            z-index: -1;
         }
 
         header {
             padding: 40px;
             text-align: center;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            color: #fff;
         }
 
         header h1 {
@@ -25,29 +50,31 @@
         }
 
         header p {
-            opacity: 0.7;
+            opacity: 0.8;
         }
 
         .grid {
             max-width: 1100px;
-            margin: 60px auto;
+            margin: 40px auto;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 30px;
-            padding: 0 30px;
+            padding: 0 30px 80px;
         }
 
         .card {
-            background: linear-gradient(135deg, #1a1a1a, #111);
+            background: rgba(20,20,20,0.75);
+            backdrop-filter: blur(4px);
             padding: 30px;
             border-radius: 12px;
             cursor: pointer;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            color: #fff;
         }
 
         .card:hover {
             transform: translateY(-6px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
         }
 
         .card h3 {
@@ -63,55 +90,129 @@
         footer {
             text-align: center;
             padding: 40px;
-            opacity: 0.5;
+            color: #fff;
+            opacity: 0.6;
             font-size: 0.9em;
         }
     </style>
 </head>
 <body>
 
-<header>
-    <h1>Ensaios</h1>
-    <p>Escolha um tema para leitura e reflexão</p>
-</header>
-
-<section class="grid">
-
-    <!-- Ensaio 1 -->
-    <div class="card" onclick="abrirEnsaio(0)">
-        <h3>Perspectivas</h3>
-        <p>A realidade implacável e a necessidade de ação.</p>
-    </div>
-
-    <!-- Ensaio 2 -->
-    <div class="card" onclick="abrirEnsaio(1)">
-        <h3>Riqueza</h3>
-        <p>O que realmente significa ser rico.</p>
-    </div>
-
-    <!-- Ensaio 3 -->
-    <div class="card" onclick="abrirEnsaio(2)">
-        <h3>O Farol Que Não Brilha</h3>
-        <p>Quando a luz conduz aos rochedos.</p>
-    </div>
-
-</section>
-
-<!-- Vídeo em background -->
+    <!-- Vídeo em loop no fundo -->
     <video class="video-bg" autoplay muted loop playsinline>
-        <source src="https://raw.githubusercontent.com/GeovaneEstanislau/geovane-estanislau-site/main/assets/videos/nuvem.mp4">
-        Seu navegador não suporta vídeo em HTML5.
+        <source src="https://raw.githubusercontent.com/SEU_USUARIO/SEU_REPOSITORIO/main/assets/videos/nuvem.mp4" type="video/mp4">
     </video>
 
-<footer>
-    FreireAI • Espaço de Ensaios
-</footer>
+    <div class="overlay"></div>
+
+    <header>
+        <h1>Ensaios</h1>
+        <p>Escolha um tema para leitura e reflexão</p>
+    </header>
+
+    <section class="grid">
+
+        <!-- Exemplo de ensaios em PDF -->
+        <div class="card" onclick="abrirPDF('perspectivas.pdf')">
+            <h3>Perspectivas</h3>
+            <p>A realidade implacável e a necessidade de ação.</p>
+        </div>
+
+        <div class="card" onclick="abrirPDF('riqueza.pdf')">
+            <h3>Riqueza</h3>
+            <p>O que realmente significa ser rico.</p>
+        </div>
+
+        <div class="card" onclick="abrirPDF('farol.pdf')">
+            <h3>O Farol Que Não Brilha</h3>
+            <p>Quando a luz conduz aos rochedos.</p>
+        </div>
+
+    </section>
+
+    <footer>
+        FreireAI • Espaço de Ensaios
+    </footer>
 
 <script>
-    function abrirEnsaio(id) {
-        window.location.href = "leitura.html?ensaio=" + id;
+    function abrirPDF(arquivo) {
+        window.location.href = "leitura-pdf.html?file=" + arquivo;
     }
 </script>
 
 </body>
 </html>
+```
+
+---
+
+# leitura-pdf.html  (usando pdf.js já no seu repositório)
+
+```html
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <title>Leitura • Ensaio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <style>
+        body {
+            margin: 0;
+            background: #0f0f0f;
+            color: #fff;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        header {
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        header button {
+            background: transparent;
+            border: 2px solid #fff;
+            color: #fff;
+            padding: 8px 20px;
+            cursor: pointer;
+        }
+
+        #viewer {
+            width: 100%;
+            height: calc(100vh - 70px);
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <button onclick="voltar()">⬅ Voltar aos ensaios</button>
+    <span>Leitura</span>
+</header>
+
+<!-- Aqui usamos diretamente o visualizador do pdf.js -->
+<iframe id="viewer"></iframe>
+
+<script>
+    const params = new URLSearchParams(window.location.search);
+    const arquivo = params.get("file");
+
+    // Caminho para sua pasta de PDFs no GitHub
+    const pdfURL = "pdfs/" + arquivo;
+
+    // Caminho para o viewer do pdf.js que você já tem no repositório
+    const viewerURL = "pdfjs/web/viewer.html?file=" + encodeURIComponent(pdfURL);
+
+    document.getElementById("viewer").src = viewerURL;
+
+    function voltar() {
+        window.location.href = "ensaios.html";
+    }
+</script>
+
+</body>
+</html>
+```

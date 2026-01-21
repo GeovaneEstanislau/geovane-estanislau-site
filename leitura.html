@@ -1,120 +1,218 @@
+# ensaios.html
+
+```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="utf-8" />
-    <title>Leitura • Ensaios</title>
+    <title>Ensaios • Biblioteca</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            margin: 0;
-            font-family: "Georgia", "Times New Roman", serif;
-            background: #0f0f0f;
-            color: #eaeaea;
+            font-family: "Segoe UI", Arial, sans-serif;
+            overflow: hidden;
         }
 
-        .container {
-            max-width: 800px;
-            margin: 80px auto;
-            padding: 0 30px;
-            line-height: 1.8;
+        /* Vídeo de fundo */
+        .video-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
         }
 
-        h1 {
-            font-size: 2.4em;
-            margin-bottom: 30px;
+        /* Camada escura para leitura */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.55);
+            z-index: -1;
+        }
+
+        header {
+            padding: 40px;
             text-align: center;
-        }
-
-        .texto {
-            font-size: 1.1em;
-            opacity: 0.95;
-        }
-
-        .nav {
-            margin-top: 60px;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .nav button {
-            background: transparent;
-            border: 2px solid #fff;
             color: #fff;
-            padding: 12px 30px;
-            font-size: 0.9em;
-            cursor: pointer;
-            transition: all 0.3s ease;
         }
 
-        .nav button:hover {
-            background: #fff;
-            color: #111;
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            opacity: 0.8;
+        }
+
+        .grid {
+            max-width: 1100px;
+            margin: 40px auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            padding: 0 30px 80px;
+        }
+
+        .card {
+            background: rgba(20,20,20,0.75);
+            backdrop-filter: blur(4px);
+            padding: 30px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            color: #fff;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        .card h3 {
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .card p {
+            font-size: 0.95em;
+            opacity: 0.7;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: #fff;
+            opacity: 0.6;
+            font-size: 0.9em;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1 id="titulo"></h1>
+    <!-- Vídeo em loop no fundo -->
+    <video class="video-bg" autoplay muted loop playsinline>
+        <source src="https://raw.githubusercontent.com/SEU_USUARIO/SEU_REPOSITORIO/main/assets/videos/nuvem.mp4" type="video/mp4">
+    </video>
 
-    <div class="texto" id="conteudo"></div>
+    <div class="overlay"></div>
 
-    <div class="nav">
-        <button onclick="anterior()">⬅ Ensaio anterior</button>
-        <button onclick="proximo()">Próximo ensaio ➡</button>
-    </div>
-</div>
+    <header>
+        <h1>Ensaios</h1>
+        <p>Escolha um tema para leitura e reflexão</p>
+    </header>
+
+    <section class="grid">
+
+        <!-- Exemplo de ensaios em PDF -->
+        <div class="card" onclick="abrirPDF('perspectivas.pdf')">
+            <h3>Perspectivas</h3>
+            <p>A realidade implacável e a necessidade de ação.</p>
+        </div>
+
+        <div class="card" onclick="abrirPDF('riqueza.pdf')">
+            <h3>Riqueza</h3>
+            <p>O que realmente significa ser rico.</p>
+        </div>
+
+        <div class="card" onclick="abrirPDF('farol.pdf')">
+            <h3>O Farol Que Não Brilha</h3>
+            <p>Quando a luz conduz aos rochedos.</p>
+        </div>
+
+    </section>
+
+    <footer>
+        FreireAI • Espaço de Ensaios
+    </footer>
 
 <script>
-    const ensaios = [
-        {
-            titulo: "Perspectivas",
-            texto: `
-                <p>A vida raramente oferece caminhos fáceis...</p>
-                <p>É no confronto com a realidade que nasce a transformação.</p>
-            `
-        },
-        {
-            titulo: "Riqueza",
-            texto: `
-                <p>Riqueza não é acúmulo, é liberdade...</p>
-                <p>Quem domina o tempo, domina a própria vida.</p>
-            `
-        },
-        {
-            titulo: "O Farol Que Não Brilha",
-            texto: `
-                <p>Nem toda luz indica salvação...</p>
-                <p>Algumas existem apenas para conduzir aos rochedos.</p>
-            `
-        }
-    ];
-
-    const params = new URLSearchParams(window.location.search);
-    let atual = parseInt(params.get("ensaio")) || 0;
-
-    function carregar() {
-        document.getElementById("titulo").innerText = ensaios[atual].titulo;
-        document.getElementById("conteudo").innerHTML = ensaios[atual].texto;
+    function abrirPDF(arquivo) {
+        window.location.href = "leitura-pdf.html?file=" + arquivo;
     }
-
-    function anterior() {
-        if (atual > 0) {
-            atual--;
-            window.location.href = "leitura.html?ensaio=" + atual;
-        }
-    }
-
-    function proximo() {
-        if (atual < ensaios.length - 1) {
-            atual++;
-            window.location.href = "leitura.html?ensaio=" + atual;
-        }
-    }
-
-    carregar();
 </script>
 
 </body>
 </html>
+```
+
+---
+
+# leitura-pdf.html  (usando pdf.js já no seu repositório)
+
+```html
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <title>Leitura • Ensaio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <style>
+        body {
+            margin: 0;
+            background: #0f0f0f;
+            color: #fff;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        header {
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        header button {
+            background: transparent;
+            border: 2px solid #fff;
+            color: #fff;
+            padding: 8px 20px;
+            cursor: pointer;
+        }
+
+        #viewer {
+            width: 100%;
+            height: calc(100vh - 70px);
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <button onclick="voltar()">⬅ Voltar aos ensaios</button>
+    <span>Leitura</span>
+</header>
+
+<!-- Aqui usamos diretamente o visualizador do pdf.js -->
+<iframe id="viewer"></iframe>
+
+<script>
+    const params = new URLSearchParams(window.location.search);
+    const arquivo = params.get("file");
+
+    // Caminho para sua pasta de PDFs no GitHub
+    const pdfURL = "pdfs/" + arquivo;
+
+    // Caminho para o viewer do pdf.js que você já tem no repositório
+    const viewerURL = "pdfjs/web/viewer.html?file=" + encodeURIComponent(pdfURL);
+
+    document.getElementById("viewer").src = viewerURL;
+
+    function voltar() {
+        window.location.href = "ensaios.html";
+    }
+</script>
+
+</body>
+</html>
+```
