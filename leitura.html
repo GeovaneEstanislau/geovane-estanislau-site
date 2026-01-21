@@ -1,66 +1,70 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="utf-8" />
-    <title>Leitura • Ensaio</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+body {
+margin: 0;
+background: #0f0f0f;
+color: #fff;
+font-family: "Segoe UI", Arial, sans-serif;
+}
 
-    <style>
-        body {
-            margin: 0;
-            background: #0f0f0f;
-            color: #fff;
-            font-family: "Segoe UI", Arial, sans-serif;
-        }
 
-        header {
-            padding: 20px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
+header {
+padding: 20px 30px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+border-bottom: 1px solid rgba(255,255,255,0.1);
+}
 
-        header button {
-            background: transparent;
-            border: 2px solid #fff;
-            color: #fff;
-            padding: 8px 20px;
-            cursor: pointer;
-        }
 
-        #viewer {
-            width: 100%;
-            height: calc(100vh - 70px);
-        }
-    </style>
+header button {
+background: transparent;
+border: 2px solid #fff;
+color: #fff;
+padding: 8px 20px;
+cursor: pointer;
+}
+
+
+#viewer {
+width: 100%;
+height: calc(100vh - 70px);
+border: none;
+}
+</style>
 </head>
 <body>
 
+
 <header>
-    <button onclick="voltar()">⬅ Voltar aos ensaios</button>
-    <span>Leitura</span>
+<button onclick="voltar()">⬅ Biblioteca</button>
+<span id="titulo"></span>
 </header>
 
-<!-- Aqui usamos diretamente o visualizador do pdf.js -->
+
 <iframe id="viewer"></iframe>
 
+
 <script>
-    const params = new URLSearchParams(window.location.search);
-    const arquivo = params.get("file");
+const params = new URLSearchParams(window.location.search);
+const arquivo = params.get("file");
 
-    // Caminho para sua pasta de PDFs no GitHub
-    const pdfURL = "pdfs/" + ensaio1;
 
-    // Caminho para o viewer do pdf.js que você já tem no repositório
-    const viewerURL = "pdfjs/web/viewer.html?file=" + encodeURIComponent(pdfURL);
+const pdfURL = "https://raw.githubusercontent.com/GeovaneEstanislau/geovane-estanislau-site/main/pdfs/" + arquivo;
 
-    document.getElementById("viewer").src = viewerURL;
 
-    function voltar() {
-        window.location.href = "ensaios.html";
-    }
+const viewerURL = "pdfjs/web/viewer.html?file=" + encodeURIComponent(pdfURL);
+
+
+document.getElementById("viewer").src = viewerURL;
+document.getElementById("titulo").innerText = arquivo.replace(".pdf", "");
+
+
+function voltar() {
+window.location.href = "ensaios.html";
+}
 </script>
+
 
 </body>
 </html>

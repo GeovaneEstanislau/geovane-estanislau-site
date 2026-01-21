@@ -1,141 +1,78 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="utf-8" />
-    <title>Ensaios • Biblioteca</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+<source src="https://raw.githubusercontent.com/GeovaneEstanislau/geovane-estanislau-site/main/assets/videos/nuvem.mp4" type="video/mp4">
+</video>
+<div class="overlay"></div>
 
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        body {
-            font-family: "Segoe UI", Arial, sans-serif;
-            overflow: hidden;
-        }
+<header>
+<h1>Ensaios</h1>
+<p>Biblioteca de leitura e reflexão</p>
+</header>
 
-        /* Vídeo de fundo */
-        .video-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: -2;
-        }
 
-        /* Camada escura para leitura */
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.55);
-            z-index: -1;
-        }
+<section class="grid" id="biblioteca"></section>
 
-        header {
-            padding: 40px;
-            text-align: center;
-            color: #fff;
-        }
 
-        header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        }
+<footer>
+FreireAI • Espaço de Ensaios
+</footer>
 
-        header p {
-            opacity: 0.8;
-        }
 
-        .grid {
-            max-width: 1100px;
-            margin: 40px auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            padding: 0 30px 80px;
-        }
+<!-- pdf.js -->
+<script src="pdfjs/build/pdf.js"></script>
 
-        .card {
-            background: rgba(20,20,20,0.75);
-            backdrop-filter: blur(4px);
-            padding: 30px;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            color: #fff;
-        }
-
-        .card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-        }
-
-        .card h3 {
-            margin-bottom: 10px;
-            font-size: 1.3em;
-        }
-
-        .card p {
-            font-size: 0.95em;
-            opacity: 0.7;
-        }
-
-        footer {
-            text-align: center;
-            padding: 40px;
-            color: #fff;
-            opacity: 0.6;
-            font-size: 0.9em;
-        }
-    </style>
-</head>
-<body>
-
-    <!-- Vídeo em loop no fundo -->
-    <video class="video-bg" autoplay muted loop playsinline>
-        <source src="https://raw.githubusercontent.com/SEU_USUARIO/SEU_REPOSITORIO/main/assets/videos/nuvem.mp4" type="video/mp4">
-    </video>
-
-    <div class="overlay"></div>
-
-    <header>
-        <h1>Ensaios</h1>
-        <p>Escolha um tema para leitura e reflexão</p>
-    </header>
-
-    <section class="grid">
-
-        <!-- Exemplo de ensaios em PDF -->
-        <div class="card" onclick="abrirPDF('perspectivas.pdf')">
-            <h3>Perspectivas</h3>
-            <p>A realidade implacável e a necessidade de ação.</p>
-        </div>
-
-        <div class="card" onclick="abrirPDF('riqueza.pdf')">
-            <h3>Riqueza</h3>
-            <p>O que realmente significa ser rico.</p>
-        </div>
-
-        <div class="card" onclick="abrirPDF('farol.pdf')">
-            <h3>O Farol Que Não Brilha</h3>
-            <p>Quando a luz conduz aos rochedos.</p>
-        </div>
-
-    </section>
-
-    <footer>
-        FreireAI • Espaço de Ensaios
-    </footer>
 
 <script>
-    function abrirPDF(arquivo) {
-        window.location.href = "leitura-pdf.html?file=" + arquivo;
-    }
+const totalEnsaios = 6; // você só altera esse número quando adicionar novos PDFs
+
+
+const basePDF = "https://raw.githubusercontent.com/GeovaneEstanislau/geovane-estanislau-site/main/pdfs/";
+
+
+const biblioteca = document.getElementById("biblioteca");
+
+
+for (let i = 1; i <= totalEnsaios; i++) {
+const arquivo = `ensaio${i}.pdf`;
+const url = basePDF + arquivo;
+
+
+const card = document.createElement("div");
+card.className = "card";
+card.onclick = () => abrirPDF(arquivo);
+
+
+const canvas = document.createElement("canvas");
+const titulo = document.createElement("div");
+titulo.className = "titulo";
+titulo.innerText = `Ensaio ${i}`;
+
+
+card.appendChild(canvas);
+card.appendChild(titulo);
+biblioteca.appendChild(card);
+
+
+// Renderiza a primeira página como miniatura
+pdfjsLib.getDocument(url).promise.then(pdf => {
+pdf.getPage(1).then(page => {
+const viewport = page.getViewport({ scale: 0.6 });
+const context = canvas.getContext("2d");
+canvas.height = viewport.height;
+canvas.width = viewport.width;
+
+
+page.render({ canvasContext: context, viewport: viewport });
+});
+});
+}
+
+
+function abrirPDF(arquivo) {
+window.open("leitura-pdf.html?file=" + arquivo, "_blank");
+}
 </script>
+
 
 </body>
 </html>
