@@ -1,33 +1,125 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="refresh" content="0; URL='ensaios.html'" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Geovane Estanislau – Página Inicial</title>
+    <meta charset="utf-8" />
+    <title>Ensaios • FreireAI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Redirecionamento automático (opcional – 8 segundos) -->
+    <meta http-equiv="refresh" content="8;url=ensaios.html">
 
     <style>
+        /* Reset básico */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            background: #111;
-            color: #eee;
-            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            font-family: "Segoe UI", Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        /* Vídeo em tela cheia */
+        .video-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        /* Camada de escurecimento suave para leitura */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.45);
+            z-index: -1;
+        }
+
+        /* Conteúdo central */
+        .container {
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            color: #fff;
             text-align: center;
+            padding: 40px;
         }
-        .loading {
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        p {
             font-size: 1.2em;
-            margin-top: 15px;
-            opacity: 0.8;
+            opacity: 0.9;
+            margin-bottom: 40px;
+            max-width: 600px;
+        }
+
+        a.button {
+            display: inline-block;
+            padding: 15px 40px;
+            border: 2px solid #fff;
+            color: #fff;
+            text-decoration: none;
+            font-size: 1em;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(2px);
+        }
+
+        a.button:hover {
+            background: #fff;
+            color: #111;
+        }
+
+        .note {
+            margin-top: 30px;
+            font-size: 0.9em;
+            opacity: 0.7;
         }
     </style>
 </head>
-
 <body>
-    <h1>Carregando...</h1>
-    <p class="loading">Redirecionando para a página de ensaios</p>
+
+    <!-- Vídeo em background -->
+    <video class="video-bg" autoplay muted loop playsinline>
+        <source src="https://raw.githubusercontent.com/GeovaneEstanislau/geovane-estanislau-site/main/assets/videos/nuvem.mp4" type="video/mp4">
+        Seu navegador não suporta vídeo em HTML5.
+    </video>
+
+    <!-- Camada de escurecimento -->
+    <div class="overlay"></div>
+
+    <!-- Conteúdo principal -->
+    <div class="container">
+        <h1>Ensaios</h1>
+        <p>
+            Espaço dedicado à leitura, reflexão e construção de ideias.<br>
+            Cada quadro representa um tema em desenvolvimento.
+        </p>
+
+        <a href="ensaios.html" class="button">
+            Acessar Ensaios
+        </a>
+
+        <div class="note">
+            Você será redirecionado automaticamente em alguns segundos…
+        </div>
+    </div>
+
 </body>
 </html>
