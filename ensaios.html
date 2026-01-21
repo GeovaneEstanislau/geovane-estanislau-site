@@ -1,54 +1,116 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<title>Leitura de Ensaio</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <title>Ensaios • Biblioteca</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<style>
-.navbox {
-    position: fixed;
-    top: 12px;
-    right: 12px;
-    z-index: 999999;
-    background: rgba(0,0,0,0.45);
-    backdrop-filter: blur(6px);
-    padding: 10px 14px;
-    border-radius: 10px;
-    display: flex;
-    gap: 14px;
-    font-family: sans-serif;
-}
-.navbox a {
-    color: white;
-    text-decoration: none;
-    font-size: 14px;
-}
-.navbox a:hover {
-    text-decoration: underline;
-}
-</style>
+    <style>
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #0f0f0f;
+            color: #fff;
+        }
 
+        header {
+            padding: 40px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            opacity: 0.7;
+        }
+
+        .grid {
+            max-width: 1100px;
+            margin: 60px auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            padding: 0 30px;
+        }
+
+        .card {
+            background: linear-gradient(135deg, #1a1a1a, #111);
+            padding: 30px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .card h3 {
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .card p {
+            font-size: 0.95em;
+            opacity: 0.7;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            opacity: 0.5;
+            font-size: 0.9em;
+        }
+    </style>
 </head>
 <body>
 
-<div id="nav" class="navbox">
-    <a id="prevLink" href="#">← Anterior</a>
-    <a id="nextLink" href="#">Próximo →</a>
-    <a href="/index.html">Índice</a>
-</div>
+<!-- Vídeo em background -->
+    <video class="video-bg" autoplay muted loop playsinline>
+        <source src="https://raw.githubusercontent.com/GeovaneEstanislau/geovane-estanislau-site/main/assets/videos/nuvem.mp4">
+        Seu navegador não suporta vídeo em HTML5.
+    </video>
+
+<header>
+    <h1>Ensaios</h1>
+    <p>Escolha um tema para leitura e reflexão</p>
+</header>
+
+<section class="grid">
+
+    <!-- Ensaio 1 -->
+    <div class="card" onclick="abrirEnsaio(0)">
+        <h3>Perspectivas</h3>
+        <p>A realidade implacável e a necessidade de ação.</p>
+    </div>
+
+    <!-- Ensaio 2 -->
+    <div class="card" onclick="abrirEnsaio(1)">
+        <h3>Riqueza</h3>
+        <p>O que realmente significa ser rico.</p>
+    </div>
+
+    <!-- Ensaio 3 -->
+    <div class="card" onclick="abrirEnsaio(2)">
+        <h3>O Farol Que Não Brilha</h3>
+        <p>Quando a luz conduz aos rochedos.</p>
+    </div>
+
+</section>
+
+<footer>
+    FreireAI • Espaço de Ensaios
+</footer>
 
 <script>
-  const params = new URLSearchParams(location.search);
-  let id = parseInt(params.get("id") || "1");
-
-  // links
-  document.getElementById("prevLink").href = `/ensaio.html?id=${id > 1 ? id - 1 : 1}`;
-  document.getElementById("nextLink").href = `/ensaio.html?id=${id + 1}`;
-
-  // redirect to viewer
-  const pdf = `/pdfs/ensaio${id}.pdf`;
-  location.href = `/pdfjs/web/viewer.html?file=${encodeURIComponent(pdf)}`;
+    function abrirEnsaio(id) {
+        window.location.href = "leitura.html?ensaio=" + id;
+    }
 </script>
 
 </body>
