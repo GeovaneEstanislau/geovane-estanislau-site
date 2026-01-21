@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <title>Leitura • Ensaios</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <style>
+        body {
+            margin: 0;
+            font-family: "Georgia", "Times New Roman", serif;
+            background: #0f0f0f;
+            color: #eaeaea;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 80px auto;
+            padding: 0 30px;
+            line-height: 1.8;
+        }
+
+        h1 {
+            font-size: 2.4em;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .texto {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+
+        .nav {
+            margin-top: 60px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .nav button {
+            background: transparent;
+            border: 2px solid #fff;
+            color: #fff;
+            padding: 12px 30px;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav button:hover {
+            background: #fff;
+            color: #111;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 id="titulo"></h1>
+
+    <div class="texto" id="conteudo"></div>
+
+    <div class="nav">
+        <button onclick="anterior()">⬅ Ensaio anterior</button>
+        <button onclick="proximo()">Próximo ensaio ➡</button>
+    </div>
+</div>
+
+<script>
+    const ensaios = [
+        {
+            titulo: "Perspectivas",
+            texto: `
+                <p>A vida raramente oferece caminhos fáceis...</p>
+                <p>É no confronto com a realidade que nasce a transformação.</p>
+            `
+        },
+        {
+            titulo: "Riqueza",
+            texto: `
+                <p>Riqueza não é acúmulo, é liberdade...</p>
+                <p>Quem domina o tempo, domina a própria vida.</p>
+            `
+        },
+        {
+            titulo: "O Farol Que Não Brilha",
+            texto: `
+                <p>Nem toda luz indica salvação...</p>
+                <p>Algumas existem apenas para conduzir aos rochedos.</p>
+            `
+        }
+    ];
+
+    const params = new URLSearchParams(window.location.search);
+    let atual = parseInt(params.get("ensaio")) || 0;
+
+    function carregar() {
+        document.getElementById("titulo").innerText = ensaios[atual].titulo;
+        document.getElementById("conteudo").innerHTML = ensaios[atual].texto;
+    }
+
+    function anterior() {
+        if (atual > 0) {
+            atual--;
+            window.location.href = "leitura.html?ensaio=" + atual;
+        }
+    }
+
+    function proximo() {
+        if (atual < ensaios.length - 1) {
+            atual++;
+            window.location.href = "leitura.html?ensaio=" + atual;
+        }
+    }
+
+    carregar();
+</script>
+
+</body>
+</html>
