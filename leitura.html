@@ -54,10 +54,10 @@ if (!arquivo) {
   throw new Error("Arquivo não informado");
 }
 
-/* CAMINHO CORRETO PARA GITHUB PAGES */
-const pdfURL = "https://geovaneestanislau.github.io/geovane-estanislau-site/pdfs/" + arquivo;
+/* DOMÍNIO REAL DOS PDFs */
+const pdfURL = "https://geovaneestanislau.com.br/pdfs/" + arquivo;
 
-/* viewer local do pdf.js */
+/* viewer local */
 const viewerURL = "pdfjs/web/viewer.html?file=" + encodeURIComponent(pdfURL);
 
 document.getElementById("viewer").src = viewerURL;
