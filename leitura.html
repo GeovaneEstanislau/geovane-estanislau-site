@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+<head>
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+
 <style>
 body {
   margin: 0;
@@ -8,6 +11,7 @@ body {
   color: #fff;
   font-family: "Segoe UI", Arial, sans-serif;
 }
+
 header {
   padding: 20px 30px;
   display: flex;
@@ -15,6 +19,7 @@ header {
   align-items: center;
   border-bottom: 1px solid rgba(255,255,255,0.1);
 }
+
 header button {
   background: transparent;
   border: 2px solid #fff;
@@ -22,12 +27,15 @@ header button {
   padding: 8px 20px;
   cursor: pointer;
 }
+
 #viewer {
   width: 100%;
   height: calc(100vh - 70px);
   border: none;
 }
 </style>
+</head>
+
 <body>
 
 <header>
@@ -41,10 +49,15 @@ header button {
 const params = new URLSearchParams(window.location.search);
 const arquivo = params.get("file");
 
-// Caminho correto da pasta PDF
-const pdfURL = "https://raw.githubusercontent.com/GeovaneEstanislau/geovane-estanislau-site/main/pdfs/" + arquivo;
+if (!arquivo) {
+  document.getElementById("titulo").innerText = "Erro ao carregar ensaio";
+  throw new Error("Arquivo não informado");
+}
 
-// Caminho correto para o viewer do PDF.js
+/* CAMINHO CORRETO PARA GITHUB PAGES */
+const pdfURL = "https://geovaneestanislau.github.io/geovane-estanislau-site/pdfs/" + arquivo;
+
+/* viewer local do pdf.js */
 const viewerURL = "pdfjs/web/viewer.html?file=" + encodeURIComponent(pdfURL);
 
 document.getElementById("viewer").src = viewerURL;
