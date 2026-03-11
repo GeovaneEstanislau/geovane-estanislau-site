@@ -1,168 +1,68 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-<meta charset="utf-8" />
-<title>Geovane Estanislau • Portal</title>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-
-<!-- Favicon -->
-<link rel="icon" type="image/png" href="images/2.png" />
-
-<style>
-*{margin:0;padding:0;box-sizing:border-box;}
-
-body{
-  min-height:100vh;
-  font-family:"Segoe UI", Arial, sans-serif;
-  overflow:hidden;
-}
-
-.video-bg{
-  position:fixed;
-  top:0;left:0;
-  width:100%;height:100%;
-  object-fit:cover;
-  z-index:-2;
-}
-
-.overlay{
-  position:fixed;
-  top:0;left:0;
-  width:100%;height:100%;
-  background:rgba(0,0,0,0.55);
-  z-index:-1;
-}
-
-.container{
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  color:#fff;
-  text-align:center;
-  padding:40px;
-}
-
-h1{
-  font-size:3em;
-  margin-bottom:15px;
-  letter-spacing:1px;
-}
-
-.sub{
-  font-size:1.2em;
-  opacity:0.85;
-  margin-bottom:50px;
-  max-width:700px;
-}
-
-.grid{
-  display:grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap:35px;
-  width:100%;
-  max-width:1000px;
-}
-
-.card{
-  background:rgba(20,20,20,0.75);
-  backdrop-filter:blur(6px);
-  border-radius:16px;
-  padding:35px 25px;
-  text-align:center;
-  color:#fff;
-  transition:0.4s ease;
-  box-shadow:0 10px 30px rgba(0,0,0,0.4);
-}
-
-.card:hover{
-  transform:translateY(-8px) scale(1.01);
-  box-shadow:0 20px 50px rgba(0,0,0,0.6);
-}
-
-.card h2{
-  font-size:1.6em;
-  margin-bottom:15px;
-}
-
-.card p{
-  font-size:1em;
-  opacity:0.85;
-  margin-bottom:25px;
-}
-
-.card a{
-  display:inline-block;
-  padding:12px 30px;
-  border:2px solid #fff;
-  color:#fff;
-  text-decoration:none;
-  transition:0.3s ease;
-}
-
-.card a:hover{
-  background:#fff;
-  color:#111;
-}
-
-footer{
-  position:fixed;
-  bottom:20px;
-  width:100%;
-  text-align:center;
-  font-size:0.85em;
-  opacity:0.6;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geovane Estanislau | Conhecimento e Liberdade</title>
+    <meta name="description"
+        content="Site institucional de Geovane Estanislau. Tecnologia, educação e princípios de liberdade individual e responsabilidade institucional.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Playfair+Display:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/index.css">
 </head>
+
 <body>
+    <video autoplay muted loop playsinline id="bg-video">
+        <source src="assets/videos/peace.mp4" type="video/mp4">
+    </video>
+    <div class="overlay"></div>
 
-<video class="video-bg" autoplay muted loop playsinline>
-  <source src="https://raw.githubusercontent.com/GeovaneEstanislau/geovane-estanislau-site/main/assets/videos/nuvem.mp4" type="video/mp4">
-</video>
-<div class="overlay"></div>
+    <nav>
+        <div class="logo">
+            <div class="br-flag"></div>
+            Geovane Estanislau
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Início</a>
+            <a href="pilares.html">Pilares</a>
+            <a href="sobre.html">Sobre</a>
+            <a href="freireai.html">FreireAI</a>
+            <a href="ensaios.html">Ensaios</a>
+        </div>
+    </nav>
 
-<div class="container">
+    <main>
+        <section class="hero">
+            <h1>"Conhecimento, responsabilidade institucional e liberdade individual como pilares de uma sociedade
+                saudável."</h1>
+            <p>Pensador, educador e desenvolvedor de projetos de tecnologia educacional.</p>
+        </section>
 
-  <h1>Geovane Estanislau</h1>
-  <div class="sub">Conhecimento, tecnologia, educação e reflexão crítica como estrutura de transformação social</div>
+        <section class="container">
+            <div class="grid">
+                <a href="freireai.html" class="glass-card">
+                    <h2>FreireAI</h2>
+                    <p>Projeto educacional baseado em inteligência artificial voltado para a autonomia intelectual.</p>
+                </a>
+                <a href="pilares.html" class="glass-card">
+                    <h2>Pilares Filosóficos</h2>
+                    <p>Uma visão institucional e política inspirada no liberalismo clássico e direitos naturais.</p>
+                </a>
+                <a href="ensaios.html" class="glass-card">
+                    <h2>Biblioteca de ensaios</h2>
+                    <p>Textos e reflexões profundas sobre os impactos da tecnologia e educação na sociedade.</p>
+                </a>
+            </div>
+        </section>
+    </main>
 
-  <div class="grid">
-
-    <!-- FreireAI -->
-    <div class="card">
-      <h2>FreireAI</h2>
-      <p>
-        Plataforma educacional, inteligência artificial, pesquisa, arquitetura do sistema e visão pedagógica.
-      </p>
-      <a href="freireai.html">Acessar</a>
-    </div>
-
-    <!-- Sobre mim -->
-    <div class="card">
-      <h2>Sobre mim</h2>
-      <p>
-        Trajetória, projetos, ideias, atuação, visão social, educação, tecnologia e construção intelectual.
-      </p>
-      <a href="sobre.html">Acessar</a>
-    </div>
-
-    <!-- Ensaios -->
-    <div class="card">
-      <h2>Ensaios</h2>
-      <p>
-        Biblioteca de textos, reflexões, análises críticas, pensamento social, filosófico e estrutural.
-      </p>
-      <a href="ensaios.html">Acessar</a>
-    </div>
-
-  </div>
-</div>
-
-<footer>
-  © FreireAI • Geovane Estanislau
-</footer>
-
+    <footer class="footer">
+        <p>&copy; 2026 Geovane Estanislau. Todos os direitos reservados. Site institucional.</p>
+    </footer>
 </body>
+
 </html>

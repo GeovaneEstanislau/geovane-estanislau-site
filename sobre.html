@@ -1,102 +1,63 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Sobre — Geovane Estanislau</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-  <style>
-    *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
-    body{background:#0b0b0f;color:#eaeaf0;line-height:1.6}
-    .hero{min-height:100vh;background:linear-gradient(180deg,rgba(0,0,0,.6),#0b0b0f),url('assets/images/bg.jpg') center/cover no-repeat;display:flex;align-items:center;padding:80px}
-    .hero-box{max-width:900px}
-    .hero h1{font-size:64px;font-weight:800;letter-spacing:-2px}
-    .hero h2{font-size:22px;font-weight:300;color:#b3b3c7;margin-top:10px}
-    .content{max-width:900px;margin:auto;padding:80px 20px}
-    .section{margin-bottom:60px}
-    .section h3{font-size:28px;margin-bottom:20px;border-left:4px solid #6a6aff;padding-left:12px}
-    .bio p{margin-bottom:18px;color:#d7d7e0}
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
-    .card{background:#11111a;border:1px solid #1f1f2e;border-radius:12px;padding:20px}
-    .footer{text-align:center;padding:40px;color:#777}
-    a{color:#6a6aff;text-decoration:none}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre Geovane Estanislau</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Playfair+Display:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/index.css">
 </head>
+
 <body>
+    <video autoplay muted loop playsinline id="bg-video">
+        <source src="assets/videos/peace.mp4" type="video/mp4">
+    </video>
+    <div class="overlay"></div>
 
-<section class="hero">
-  <div class="hero-box">
-    <h1>Geovane Estanislau</h1>
-    <h2>Tecnologia, educação, pensamento crítico e construção de sistemas</h2>
-  </div>
-</section>
+    <nav>
+        <div class="logo">
+            <div class="br-flag"></div>
+            Geovane Estanislau
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Início</a>
+            <a href="pilares.html">Pilares</a>
+            <a href="sobre.html">Sobre</a>
+            <a href="freireai.html">FreireAI</a>
+            <a href="ensaios.html">Ensaios</a>
+        </div>
+    </nav>
 
-<section class="content">
+    <main class="container">
+        <h1 class="section-title">Trajetória e Propósito</h1>
 
-  <div class="section bio">
-    <h3>Biografia</h3>
-    <p>
-      Geovane da Conceição Estanislau não se construiu a partir de títulos, mas de fricções. Sua trajetória nasce longe de centros acadêmicos elitizados, distante de redes de proteção simbólica e fora dos ambientes onde reputações costumam ser herdadas. O que existe em sua formação não é pedigree intelectual, é atrito com a realidade.
-    </p>
-    <p>
-      Formado em Tecnologia em Análise e Desenvolvimento de Sistemas, com especializações em docência, inteligência artificial aplicada à visão computacional e neuroeducação, Geovane transita entre tecnologia, educação e pensamento crítico sem romantização. Para ele, sistemas não são apenas estruturas técnicas, são estruturas de poder, organização social e distribuição de oportunidades.
-    </p>
-    <p>
-      Sua formação passa por ciência da computação, ciência de dados, big data, inteligência artificial, empreendedorismo e educação, mas sua atuação real se dá na interseção entre essas áreas. Onde a maioria vê disciplinas, ele vê sistemas interdependentes. Onde muitos veem ferramentas, ele vê estruturas que moldam comportamento, acesso e consciência.
-    </p>
-    <p>
-      Influenciado por pensadores críticos, educadores populares e uma visão materialista da realidade social, sua produção intelectual rejeita a estética da análise social superficial e a espiritualização vazia. Seus projetos partem de uma premissa simples onde o mundo é estruturalmente desigual, e qualquer discurso que ignore isso é, por princípio desonesto.
-    </p>
-    <p>
-      Atua no desenvolvimento de plataformas educacionais, sistemas inteligentes, projetos de IA aplicada e produção de conteúdo crítico voltado à formação de consciência, autonomia intelectual e emancipação prática. Seu foco não é criar dependência tecnológica, mas sistemas que ampliem capacidade cognitiva, leitura de mundo e autonomia real.
-    </p>
-    <p>
-      Geovane não se posiciona como guru, mentor ou salvador social. Seu trabalho se ancora em uma ética simples, que é de oferecer estrutura, linguagem, ferramentas e sistemas para que indivíduos possam operar melhor dentro da realidade que existe e estão inseridos, não da realidade que gostariam que existisse.
-    </p>
-  </div>
+        <div class="text-content glass-card">
+            <p>Geovane da Conceição Estanislau é formado em Tecnologia em Análise e Desenvolvimento de Sistemas, com
+                especialização em docência no ensino superior e formação complementar em inteligência artificial,
+                ciência de dados e neuroeducação.</p>
 
-  <div class="section">
-    <h3>Áreas de Atuação</h3>
-    <div class="grid">
-      <div class="card">Ciência da Computação</div>
-      <div class="card">Inteligência Artificial</div>
-      <div class="card">Educação e Docência</div>
-      <div class="card">Plataformas Educacionais</div>
-      <div class="card">Sistemas Inteligentes</div>
-      <div class="card">Pensamento Crítico</div>
-    </div>
-  </div>
+            <p>Sua trajetória combina educação, tecnologia e reflexão crítica sobre sociedade e instituições. Esta
+                intersecção permite uma visão ampla sobre como as ferramentas digitais podem servir não apenas à
+                produtividade, mas ao florescimento da autonomia individual e da responsabilidade coletiva.</p>
 
-  <div class="section">
-    <h3>Formação</h3>
-    <div class="grid">
-      <div class="card">Especialização em Docência no Ensino Superior — UNOPAR</div>
-      <div class="card">Especialização em IA aplicada à Visão Computacional — FACTI</div>
-      <div class="card">Graduação em Análise e Desenvolvimento de Sistemas — Anhanguera</div>
-      <div class="card">Formação em Neuroeducação — AVAMEC</div>
-      <div class="card">Big Data, BI e Ciência de Dados — IFMG / Anhanguera</div>
-      <div class="card">Empreendedorismo e Gestão — SEBRAE / SENAI</div>
-    </div>
-  </div>
+            <p>Como idealizador do projeto FreireAI, Geovane dedica-se ao desenvolvimento de ferramentas educacionais
+                baseadas em inteligência artificial, buscando democratizar o acesso ao conhecimento profundo e
+                metodologias que estimulam o pensamento independente.</p>
 
-  <div class="section">
-    <h3>Referências</h3>
-    <p>
-      Currículo Lattes: <a href="https://lattes.cnpq.br/2987975206846575" target="_blank">https://lattes.cnpq.br/2987975206846575</a>
-	</p>
-	<p>      
-	Linkedin: <a href="https://www.linkedin.com/in/geovane-da-concei%C3%A7%C3%A3o-estanislau-96b49b343/" target="_blank">https://www.linkedin.com/in/geovane-da-concei%C3%A7%C3%A3o-estanislau-96b49b343/</a>
-    </p>
-	<p>      
-	Github: <a href="https://github.com/GeovaneEstanislau" target="_blank">https://github.com/GeovaneEstanislau</a>
-    </p>
-  </div>
+            <p>Inspirado pela tradição do liberalismo clássico e pelo rigor intelectual, sua atuação é pautada pela
+                defesa da liberdade individual como pré-requisito para o progresso social, exigindo que as instituições
+                públicas atuem com transparência e responsabilidade inegociáveis.</p>
+        </div>
+    </main>
 
-</section>
-
-<div class="footer">
-  © Geovane Estanislau — Plataforma intelectual e educacional
-</div>
-
+    <footer class="footer">
+        <p>&copy; 2026 Geovane Estanislau. Todos os direitos reservados. Site institucional.</p>
+    </footer>
 </body>
+
 </html>
