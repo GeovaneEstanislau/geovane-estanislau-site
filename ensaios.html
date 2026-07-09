@@ -7,65 +7,12 @@
     <title>Biblioteca de Ensaios | Geovane Estanislau</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Playfair+Display:wght@400;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/index.css">
-    <style>
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-        }
-
-        .modal-content {
-            width: 90%;
-            height: 90%;
-            margin: 2% auto;
-            border-radius: 12px;
-            overflow: hidden;
-            background: white;
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 20px;
-            right: 40px;
-            color: white;
-            font-size: 30px;
-            cursor: pointer;
-            z-index: 1001;
-        }
-
-        .read-btn {
-            background: var(--primary);
-            color: var(--bg-dark);
-            padding: 0.8rem 1.5rem;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            display: inline-block;
-            margin-top: 1rem;
-            cursor: pointer;
-            border: none;
-        }
-    </style>
+    
 </head>
 
 <body>
-    <video autoplay muted loop playsinline id="bg-video">
-        <source src="assets/videos/peace.mp4" type="video/mp4">
-    </video>
-    <div class="overlay"></div>
-
     <nav>
         <div class="logo">
             <div class="br-flag"></div>
@@ -76,79 +23,325 @@
             <a href="pilares.html">Pilares</a>
             <a href="sobre.html">Sobre</a>
             <a href="freireai.html">FreireAI</a>
+            <a href="podcasts.html">Podcasts</a>
             <a href="ensaios.html">Ensaios</a>
         </div>
     </nav>
 
     <main class="container">
-        <h1 class="section-title">Ensaios e Reflexões</h1>
+        <h1 class="section-title reveal">Ensaios e Reflexões</h1>
 
-        <div class="grid">
-            <!-- Ensaio 1 -->
-            <div class="glass-card">
-                <h3>A Complexidade da Vida Humana</h3>
-                <p>Uma reflexão sobre como a sociedade exige equilíbrio entre liberdade individual e responsabilidade
-                    pública.</p>
-                <button class="read-btn" onclick="openPDF('pdfs/ensaio1.pdf')">Ler Ensaio</button>
+        <!-- Lista de Ensaios Visual -->
+    <section class="essay-grid">
+        <a class="essay-card reveal" href="pdfs/ensaio1.pdf" target="_blank">
+            <div class="snapshot-container">
+                <img class="pdf-snapshot" src="images/ensaio1.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/aguardando.png'; this.onerror=null;" />
             </div>
+            <div class="overlay-title">O Papel do Banco Central e a Rebeldia das Métricas</div>
+        </a>
+        <a class="essay-card reveal" href="pdfs/ensaio2.pdf" target="_blank">
+            <div class="snapshot-container">
+                <img class="pdf-snapshot" src="images/ensaio2.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/aguardando.png'; this.onerror=null;" />
+            </div>
+            <div class="overlay-title">Radares e Justiça Cega</div>
+        </a>
+        <a class="essay-card reveal" href="pdfs/ensaio3.pdf" target="_blank">
+            <div class="snapshot-container">
+                <img class="pdf-snapshot" src="images/ensaio3.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/aguardando.png'; this.onerror=null;" />
+            </div>
+            <div class="overlay-title">A Financeirização da Vida Cotidiana</div>
+        </a>
+        <a class="essay-card reveal" href="pdfs/ensaio4.pdf" target="_blank">
+            <div class="snapshot-container">
+                <img class="pdf-snapshot" src="images/ensaio4.png" style="display: block; width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/aguardando.png'; this.onerror=null;" />
+            </div>
+            <div class="overlay-title">O Futuro do Trabalho e o fim das Classes: A Superação de Marx</div>
+        </a>
+        <a class="essay-card reveal" href="pdfs/ensaio5.pdf" target="_blank">
+            <div class="snapshot-container">
+                <img class="pdf-snapshot" src="images/ensaio5.webp" style="display: block; width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/aguardando.png'; this.onerror=null;" />
+            </div>
+            <div class="overlay-title">A Lei é a Justiça: O Estado vs o Homem</div>
+        </a>
+        <a class="essay-card reveal" href="pdfs/ensaio6.pdf" target="_blank">
+            <div class="snapshot-container">
+                <img class="pdf-snapshot" src="images/ensaio6.webp" style="display: block; width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/aguardando.png'; this.onerror=null;" />
+            </div>
+            <div class="overlay-title">O Trabalhador como Réu: A Presunção de Culpabilidade Social</div>
+        </a>
+        <a class="essay-card reveal" href="pdfs/ensaio7.pdf" target="_blank">
+            <div class="snapshot-container">
+                <img class="pdf-snapshot" src="images/ensaio7.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/aguardando.png'; this.onerror=null;" />
+            </div>
+            <div class="overlay-title">A Sanha Patronal: O Fetiche Brasileiro pelo Controle das Pessoas</div>
+        </a>
+        <a class="essay-card reveal" href="pdfs/ensaio8.pdf" target="_blank">
+            <div class="snapshot-container">
+                <img class="pdf-snapshot" src="images/ensaio8.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/aguardando.png'; this.onerror=null;" />
+            </div>
+            <div class="overlay-title">As Injustiças do Estado e os Limites do Poder</div>
+        </a>
+        <a class="essay-card reveal" href="pdfs/ensaio9.pdf" target="_blank">
+            <div class="snapshot-container">
+                <img class="pdf-snapshot" src="images/ensaio9.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/aguardando.png'; this.onerror=null;" />
+            </div>
+            <div class="overlay-title">“Os Crimes do Estado”</div>
+        </a>
+        <a class="essay-card reveal" href="pdfs/ensaio10.pdf" target="_blank">
+            <div class="snapshot-container">
+                <img class="pdf-snapshot" src="images/ensaio10.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/aguardando.png'; this.onerror=null;" />
+            </div>
+            <div class="overlay-title">O Barulho do Poder: Por que o Som do Rico Incomoda Menos?</div>
+        </a>
+        <a class="essay-card reveal" href="pdfs/ensaio11.pdf" target="_blank">
+            <div class="snapshot-container">
+                <img class="pdf-snapshot" src="images/ensaio11.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/aguardando.png'; this.onerror=null;" />
+            </div>
+            <div class="overlay-title">A Justiça Que Dorme: Quando o Tempo é o Privilégio dos Ricos</div>
+        </a>
+        <a class="essay-card reveal" href="pdfs/ensaio12.pdf" target="_blank">
+            <div class="snapshot-container">
+                <img class="pdf-snapshot" src="images/ensaio12.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/aguardando.png'; this.onerror=null;" />
+            </div>
+            <div class="overlay-title">Advogados e Juízes: Sintomas de Uma Sociedade Injusta</div>
+        </a>
+        <a class="essay-card reveal" href="pdfs/ensaio13.pdf" target="_blank">
+            <div class="snapshot-container">
+                <img class="pdf-snapshot" src="images/ensaio13.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/aguardando.png'; this.onerror=null;" />
+            </div>
+            <div class="overlay-title">As Cotas e o Espelho Rachado: o Racismo Que o Estado Não Quer Ver</div>
+        </a>
+        <a class="essay-card reveal" href="pdfs/ensaio14.pdf" target="_blank">
+            <div class="snapshot-container">
+                <img class="pdf-snapshot" src="images/ensaio14.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/aguardando.png'; this.onerror=null;" />
+            </div>
+            <div class="overlay-title">Quem Autorizou o Estado?</div>
+        </a>
+        <a class="essay-card reveal" href="pdfs/ensaio15.pdf" target="_blank">
+            <div class="snapshot-container">
+                <img class="pdf-snapshot" src="images/ensaio15.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/aguardando.png'; this.onerror=null;" />
+            </div>
+            <div class="overlay-title">O Estado Serve ao Povo ou o Povo Serve ao Estado?</div>
+        </a>
+        <a class="essay-card reveal" href="pdfs/ensaio16.pdf" target="_blank">
+            <div class="snapshot-container">
+                <img class="pdf-snapshot" src="images/ensaio16.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/aguardando.png'; this.onerror=null;" />
+            </div>
+            <div class="overlay-title">A Filosofia do Imposto: Mal Necessário ou Roubo?</div>
+        </a>
+        <a class="essay-card reveal" href="pdfs/ensaio17.pdf" target="_blank">
+            <div class="snapshot-container">
+                <img class="pdf-snapshot" src="images/ensaio17.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/aguardando.png'; this.onerror=null;" />
+            </div>
+            <div class="overlay-title">Como os Impostos Estruturam Desigualdades (ICMS, ISS, KANDIR e Outros)</div>
+        </a>
+        <a class="essay-card reveal" href="pdfs/ensaio18.pdf" target="_blank">
+            <div class="snapshot-container">
+                <img class="pdf-snapshot" src="images/ensaio18.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/aguardando.png'; this.onerror=null;" />
+            </div>
+            <div class="overlay-title">Royalties e Renda Local: Modelos de Distribuição Que Funcionam</div>
+        </a>
+        <a class="essay-card reveal" href="pdfs/ensaio19.pdf" target="_blank">
+            <div class="snapshot-container">
+                <img class="pdf-snapshot" src="images/ensaio19.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/aguardando.png'; this.onerror=null;" />
+            </div>
+            <div class="overlay-title">Cadeias Produtivas Locais: Do insumo à Prateleira Sem Intermediários</div>
+        </a>
+        <a class="essay-card reveal" href="pdfs/ensaio20.pdf" target="_blank">
+            <div class="snapshot-container">
+                <img class="pdf-snapshot" src="images/ensaio20.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/aguardando.png'; this.onerror=null;" />
+            </div>
+            <div class="overlay-title">Cooperativas e Economia Solidária: Viabilidade e Modelos Mistos</div>
+        </a>
+        <a class="essay-card reveal" href="pdfs/ensaio21.pdf" target="_blank">
+            <div class="snapshot-container">
+                <img class="pdf-snapshot" src="images/ensaio21.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/aguardando.png'; this.onerror=null;" />
+            </div>
+            <div class="overlay-title">Tributação Progressiva vs. Regressiva: Quem Paga e Quem Lucra</div>
+        </a>
+        <a class="essay-card reveal" href="pdfs/ensaio22.pdf" target="_blank">
+            <div class="snapshot-container">
+                <img class="pdf-snapshot" src="images/ensaio22.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/aguardando.png'; this.onerror=null;" />
+            </div>
+            <div class="overlay-title">Políticas Para Reduzir Juros e Restaurar Poder de Compra</div>
+        </a>
+        <a class="essay-card reveal" href="pdfs/ensaio23.pdf" target="_blank">
+            <div class="snapshot-container">
+                <img class="pdf-snapshot" src="images/ensaio23.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/aguardando.png'; this.onerror=null;" />
+            </div>
+            <div class="overlay-title">Transparência e Participação: Como o Cidadão Fiscaliza a Tributação</div>
+        </a>
+        <a class="essay-card reveal" href="pdfs/ensaio24.pdf" target="_blank">
+            <div class="snapshot-container">
+                <img class="pdf-snapshot" src="images/ensaio24.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/aguardando.png'; this.onerror=null;" />
+            </div>
+            <div class="overlay-title">Alternativas Heterodoxas: Renda Básica, Moeda Local e Complementares</div>
+        </a>
+        <a class="essay-card reveal" href="pdfs/ensaio25.pdf" target="_blank">
+            <div class="snapshot-container">
+                <img class="pdf-snapshot" src="images/ensaio25.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/aguardando.png'; this.onerror=null;" />
+            </div>
+            <div class="overlay-title">Síntese: Um Roteiro Prático Para um Município (Ou Bairro) Que Quer Prosperar</div>
+        </a>
+        <a class="essay-card reveal" href="pdfs/ensaio26.pdf" target="_blank">
+            <div class="snapshot-container">
+                <img class="pdf-snapshot" src="images/ensaio26.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/aguardando.png'; this.onerror=null;" />
+            </div>
+            <div class="overlay-title">O Preço do Trabalho: Entre o Direito e a Dignidade</div>
+        </a>
+        <a class="essay-card reveal" href="pdfs/ensaio27.pdf" target="_blank">
+            <div class="snapshot-container">
+                <img class="pdf-snapshot" src="images/ensaio27.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/aguardando.png'; this.onerror=null;" />
+            </div>
+            <div class="overlay-title">O Soldado e o Patrão: A Guerra Invisível do Trabalho</div>
+        </a>
+        <a class="essay-card reveal" href="pdfs/ensaio28.pdf" target="_blank">
+            <div class="snapshot-container">
+                <img class="pdf-snapshot" src="images/ensaio28.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/aguardando.png'; this.onerror=null;" />
+            </div>
+            <div class="overlay-title">Justa Causa: O Crime sem Julgamento</div>
+        </a>
+        <a class="essay-card reveal" href="pdfs/ensaio29.pdf" target="_blank">
+            <div class="snapshot-container">
+                <img class="pdf-snapshot" src="images/ensaio29.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/aguardando.png'; this.onerror=null;" />
+            </div>
+            <div class="overlay-title">O Trabalhador como Réu: A Presunção de Culpabilidade Social</div>
+        </a>
+        <a class="essay-card reveal" href="pdfs/ensaio30.pdf" target="_blank">
+            <div class="snapshot-container">
+                <img class="pdf-snapshot" src="images/ensaio30.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/aguardando.png'; this.onerror=null;" />
+            </div>
+            <div class="overlay-title">O Trabalho Dignifica o Homem ou o Homem Dignifica o Trabalho?</div>
+        </a>
+        <a class="essay-card reveal" href="pdfs/ensaio31.pdf" target="_blank">
+            <div class="snapshot-container">
+                <img class="pdf-snapshot" src="images/ensaio31.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/aguardando.png'; this.onerror=null;" />
+            </div>
+            <div class="overlay-title">O Estado e o Salário: A Usurpação do Poder de Compra</div>
+        </a>
+        <a class="essay-card reveal" href="pdfs/ensaio32.pdf" target="_blank">
+            <div class="snapshot-container">
+                <img class="pdf-snapshot" src="images/ensaio32.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/aguardando.png'; this.onerror=null;" />
+            </div>
+            <div class="overlay-title">O Trabalhador Que Não Trabalha: O Valor da Inaptidão</div>
+        </a>
+        <a class="essay-card reveal" href="pdfs/ensaio33.pdf" target="_blank">
+            <div class="snapshot-container">
+                <img class="pdf-snapshot" src="images/ensaio33.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/aguardando.png'; this.onerror=null;" />
+            </div>
+            <div class="overlay-title">A Máquina da Cobrança: Como o Estado Monetiza a Pobreza</div>
+        </a>
+        <a class="essay-card reveal" href="pdfs/ensaio34.pdf" target="_blank">
+            <div class="snapshot-container">
+                <img class="pdf-snapshot" src="images/ensaio34.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/aguardando.png'; this.onerror=null;" />
+            </div>
+            <div class="overlay-title">O Vestibular Invisível: As Taxas de Processos Seletivos em Universidades Públicas</div>
+        </a>
+        <a class="essay-card reveal" href="pdfs/ensaio35.pdf" target="_blank">
+            <div class="snapshot-container">
+                <img class="pdf-snapshot" src="images/ensaio35.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/aguardando.png'; this.onerror=null;" />
+            </div>
+            <div class="overlay-title">Atrasos Propositais: Quem Ganha com a Desinformação nos Concursos Públicos?</div>
+        </a>
+        <a class="essay-card reveal" href="pdfs/ensaio36.pdf" target="_blank">
+            <div class="snapshot-container">
+                <img class="pdf-snapshot" src="images/ensaio36.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/aguardando.png'; this.onerror=null;" />
+            </div>
+            <div class="overlay-title">O Estado que Extrai, Não o Estado que Protege</div>
+        </a>
+        <a class="essay-card reveal" href="pdfs/ensaio37.pdf" target="_blank">
+            <div class="snapshot-container">
+                <img class="pdf-snapshot" src="images/ensaio37.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/aguardando.png'; this.onerror=null;" />
+            </div>
+            <div class="overlay-title">O Racismo do Estado: Estrutural, Omisso e Reprodutor</div>
+        </a>
+        <a class="essay-card reveal" href="pdfs/ensaio38.pdf" target="_blank">
+            <div class="snapshot-container">
+                <img class="pdf-snapshot" src="images/ensaio38.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/aguardando.png'; this.onerror=null;" />
+            </div>
+            <div class="overlay-title">A Proposta: Cotas de Direção Impositivas e Ascensão Obrigatória</div>
+        </a>
+        <a class="essay-card reveal" href="pdfs/ensaio39.pdf" target="_blank">
+            <div class="snapshot-container">
+                <img class="pdf-snapshot" src="images/ensaio39.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/aguardando.png'; this.onerror=null;" />
+            </div>
+            <div class="overlay-title">O Estado Deve Obedecer ao Povo: O Princípio Invertido</div>
+        </a>
+        <a class="essay-card reveal" href="pdfs/ensaio40.pdf" target="_blank">
+            <div class="snapshot-container">
+                <img class="pdf-snapshot" src="images/ensaio40.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/aguardando.png'; this.onerror=null;" />
+            </div>
+            <div class="overlay-title">A Tecnocracia Que Serve Aos Ricos: Como A Burocracia Foi Privatizada</div>
+        </a>
+        <a class="essay-card reveal" href="pdfs/ensaio41.pdf" target="_blank">
+            <div class="snapshot-container">
+                <img class="pdf-snapshot" src="images/ensaio41.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/aguardando.png'; this.onerror=null;" />
+            </div>
+            <div class="overlay-title">O Custo Invisível Da Espera: Como Atrasos Destruíram Gerações</div>
+        </a>
+        <a class="essay-card reveal" href="pdfs/ensaio42.pdf" target="_blank">
+            <div class="snapshot-container">
+                <img class="pdf-snapshot" src="images/ensaio42.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/aguardando.png'; this.onerror=null;" />
+            </div>
+            <div class="overlay-title">O Concurso Público Como Instrumento De Perpetuação Racial</div>
+        </a>
+        <a class="essay-card reveal" href="pdfs/ensaio43.pdf" target="_blank">
+            <div class="snapshot-container">
+                <img class="pdf-snapshot" src="images/ensaio43.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/aguardando.png'; this.onerror=null;" />
+            </div>
+            <div class="overlay-title">A Máquina Pública Que Escolhe Quem Deve Passar</div>
+        </a>
+        <a class="essay-card reveal" href="pdfs/ensaio44.pdf" target="_blank">
+            <div class="snapshot-container">
+                <img class="pdf-snapshot" src="images/ensaio44.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/aguardando.png'; this.onerror=null;" />
+            </div>
+            <div class="overlay-title">A Meritocracia Que Nunca Existiu: O Mapa Das Exclusões Estruturadas</div>
+        </a>
+        <a class="essay-card reveal" href="pdfs/ensaio45.pdf" target="_blank">
+            <div class="snapshot-container">
+                <img class="pdf-snapshot" src="images/ensaio45.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/aguardando.png'; this.onerror=null;" />
+            </div>
+            <div class="overlay-title">Por Que O Estado Só É Eficiente Para Cobrar?</div>
+        </a>
+        <a class="essay-card reveal" href="pdfs/ensaio46.pdf" target="_blank">
+            <div class="snapshot-container">
+                <img class="pdf-snapshot" src="images/ensaio46.png" style="display: block; width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/aguardando.png'; this.onerror=null;" />
+            </div>
+            <div class="overlay-title">A Dívida Emocional: Como O Estado Rouba Tempo, Expectativa E Saúde Mental</div>
+        </a>
+        <a class="essay-card reveal" href="pdfs/ensaio47.pdf" target="_blank">
+            <div class="snapshot-container">
+                <img class="pdf-snapshot" src="images/ensaio47.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/aguardando.png'; this.onerror=null;" />
+            </div>
+            <div class="overlay-title">Democratizar A Direção: Por Que Cargos Não Podem Ser Feudos Familiares</div>
+        </a>
+        <a class="essay-card reveal" href="pdfs/ensaio48.pdf" target="_blank">
+            <div class="snapshot-container">
+                <img class="pdf-snapshot" src="images/ensaio48.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/aguardando.png'; this.onerror=null;" />
+            </div>
+            <div class="overlay-title">Taxas E Pedágios: A Nova Privatização Do Serviço Público</div>
+        </a>
+        <a class="essay-card reveal" href="pdfs/ensaio49.pdf" target="_blank">
+            <div class="snapshot-container">
+                <img class="pdf-snapshot" src="images/ensaio49.jpg" style="display: block; width: 100%; height: 100%; object-fit: cover;" onerror="this.src='images/aguardando.png'; this.onerror=null;" />
+            </div>
+            <div class="overlay-title">Qualquer Porto em uma Tempestade</div>
+        </a>
+    </section>
 
-            <!-- Ensaio 2 -->
-            <div class="glass-card">
-                <h3>Tecnologia e Autonomia</h3>
-                <p>Explorando o papel da inteligência artificial no desenvolvimento da capacidade intelectual.</p>
-                <button class="read-btn" onclick="openPDF('pdfs/ensaio2.pdf')">Ler Ensaio</button>
-            </div>
-
-            <!-- Ensaio 4 (pular 3 se não existir) -->
-            <div class="glass-card">
-                <h3>Instituições e Futuro</h3>
-                <p>A importância da estabilidade econômica para a proteção da liberdade cidadã.</p>
-                <button class="read-btn" onclick="openPDF('pdfs/ensaio4.pdf')">Ler Ensaio</button>
-            </div>
-
-            <div class="glass-card">
-                <h3>Justiça e Educação</h3>
-                <p>Por que as leis devem priorizar a correção e a orientação antes da punição punitiva.</p>
-                <button class="read-btn" onclick="openPDF('pdfs/ensaio5.pdf')">Ler Ensaio</button>
-            </div>
-
-            <div class="glass-card">
-                <h3>O Valor do Trabalho</h3>
-                <p>Defesa do poder de compra como métrica central da saúde e dignidade de um país.</p>
-                <button class="read-btn" onclick="openPDF('pdfs/ensaio6.pdf')">Ler Ensaio</button>
-            </div>
-
-            <div class="glass-card">
-                <h3>Autoproteção e Estado</h3>
-                <p>Reflexões sobre o direito natural de autodefesa e a responsabilidade da segurança pública.</p>
-                <button class="read-btn" onclick="openPDF('pdfs/ensaio7.pdf')">Ler Ensaio</button>
-            </div>
-        </div>
     </main>
 
-    <div id="pdfModal" class="modal">
-        <span class="close-modal" onclick="closePDF()">&times;</span>
-        <div class="modal-content">
-            <iframe id="pdfFrame" src="" width="100%" height="100%" frameborder="0"></iframe>
-        </div>
-    </div>
+    
 
     <footer class="footer">
         <p>&copy; 2026 Geovane Estanislau. Todos os direitos reservados. Site institucional.</p>
     </footer>
 
-    <script>
-        function openPDF(file) {
-            document.getElementById('pdfFrame').src = file;
-            document.getElementById('pdfModal').style.display = 'block';
-            document.body.style.overflow = 'hidden';
-        }
-        function closePDF() {
-            document.getElementById('pdfModal').style.display = 'none';
-            document.getElementById('pdfFrame').src = '';
-            document.body.style.overflow = 'auto';
-        }
-    </script>
+    
+
+    
+
+    <script src="assets/js/main.js"></script>
 </body>
 
 </html>
