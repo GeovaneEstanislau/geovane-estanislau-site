@@ -1,0 +1,108 @@
+# =====================================================
+#  .gitignore — Geovane Estanislau (GitHub Pages)
+# =====================================================
+#  ATENÇÃO: O arquivo CNAME NÃO está aqui pois ele é
+#  necessário para o domínio personalizado funcionar
+#  no GitHub Pages.
+# =====================================================
+
+
+# ─── Sistema Operacional ──────────────────────────
+# Windows
+Thumbs.db
+Thumbs.db:encdata
+Desktop.ini
+$RECYCLE.BIN/
+ehthumbs.db
+ehthumbs_vista.db
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Linux
+*~
+
+
+# ─── Editores e IDEs ──────────────────────────────
+# VSCode
+.vscode/
+*.code-workspace
+
+# JetBrains (WebStorm, PyCharm, etc.)
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim / Emacs
+*.swp
+*.swo
+*~
+\#*\#
+.#*
+
+
+# ─── Python (scripts de desenvolvimento) ─────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+.env
+.venv
+venv/
+ENV/
+
+
+# ─── Node.js (caso venha a usar) ──────────────────
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+.npm
+.eslintcache
+
+
+# ─── Logs e temporários ───────────────────────────
+*.log
+*.tmp
+*.temp
+*.bak
+*.orig
+*.rej
+
+
+# ─── Pasta de referência / modelo ─────────────────
+# Contém apenas o site-modelo usado como inspiração
+# de design. Não faz parte do site publicado.
+Modelo/
+
+
+# ─── Arquivos de configuração sensíveis ───────────
+# (adicione aqui tokens, chaves de API, etc.)
+.env
+.env.local
+.env.*.local
+secrets.json
+
+
+# ─── Outros ───────────────────────────────────────
+*.zip
+*.tar.gz
+*.rar
