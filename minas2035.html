@@ -187,9 +187,64 @@
                 padding: 1.5rem;
             }
         }
+    
+        /* Navegação embutida para manter autonomia do arquivo */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: 70px; padding: 0 5%;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 1000;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .logo {
+            font-size: 1.4rem; font-weight: bold; color: var(--text-primary);
+            display: flex; align-items: center; gap: 10px; text-decoration: none;
+        }
+        .br-flag {
+            width: 20px; height: 14px; border-radius: 2px;
+            background: #009c3b; position: relative; overflow: hidden;
+        }
+        .br-flag::before {
+            content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            border-left: 10px solid transparent; border-right: 10px solid transparent;
+            border-bottom: 7px solid #ffdf00; margin-top: -3.5px;
+        }
+        .br-flag::after {
+            content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 7px; height: 7px; background: #002776; border-radius: 50%;
+        }
+        .nav-links { display: flex; gap: 2rem; align-items: center; }
+        .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; font-weight: 500; }
+        .nav-links a:hover { color: var(--text-primary); }
+        
+        /* Ajuste do header para não ficar oculto pelo menu fixo */
+        header { margin-top: 70px; }
+        
+        @media (max-width: 768px) { .nav-links { display: none; } }
+
     </style>
 </head>
 <body>
+
+    <nav>
+        <a href="index.html" class="logo">
+            <div class="br-flag"></div>
+            Geovane Estanislau
+        </a>
+        <div class="nav-links">
+            <a href="index.html">Início</a>
+            <a href="pilares.html">Pilares</a>
+            <a href="sobre.html">Sobre</a>
+            <a href="freireai.html">FreireAI</a>
+            <a href="podcasts.html">Podcasts</a>
+            <a href="ensaios.html">Ensaios</a>
+            <a href="minas2035.html">Minas 2035</a>
+        </div>
+    </nav>
+
 
     <header>
         <div class="container">
