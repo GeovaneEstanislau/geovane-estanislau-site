@@ -505,3 +505,70 @@ html.dark-mode .download-item:hover {
         width: 95%;
     }
 }
+
+
+/* ===============================
+   HERO MINAS 2035
+   =============================== */
+
+
+.hero {
+
+    min-height: 75vh;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-start;
+
+    padding: 5rem 8%;
+
+}
+
+
+.hero-content {
+
+    max-width: 850px;
+
+    text-align: left;
+
+}
+
+
+.hero-content h1 {
+
+    font-family: 'Outfit', sans-serif;
+
+    font-size: clamp(2rem, 4vw, 3.5rem);
+
+    line-height: 1.25;
+
+    font-weight: 700;
+
+    margin-bottom: 2rem;
+
+}
+
+
+.hero-content p {
+
+    max-width: 650px;
+
+    font-size: 1.2rem;
+
+    line-height: 1.8;
+
+    color: var(--secondary);
+
+    margin-bottom: 2rem;
+
+}
+
+
+
+.hero-content .read-btn {
+
+    display: inline-block;
+
+}
