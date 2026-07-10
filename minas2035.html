@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projeto Minas 2035 - Ideias para uma Minas Melhor</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --surface-color: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-red: #d32f2f;
+            --accent-red-hover: #b71c1c;
+            --border-color: #334155;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4 {
+            color: var(--text-primary);
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            border-left: 4px solid var(--accent-red);
+            padding-left: 1rem;
+            margin-top: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+        }
+
+        p, li {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        ul {
+            padding-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        header {
+            background-color: var(--surface-color);
+            padding: 4rem 0;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+        }
+
+        header h1 {
+            font-size: 3rem;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        header h1 span {
+            color: var(--accent-red);
+        }
+
+        header p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        main {
+            padding: 3rem 0;
+        }
+
+        section {
+            background-color: var(--surface-color);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        section:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Grid para cartões */
+        .grid-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .card {
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .card h4 {
+            color: var(--accent-red);
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .card p {
+            font-size: 0.95rem;
+            margin-bottom: 0;
+        }
+
+        /* Listas estilizadas */
+        .styled-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .styled-list li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .styled-list li::before {
+            content: "•";
+            color: var(--accent-red);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .styled-list strong {
+            color: var(--text-primary);
+        }
+
+        footer {
+            background-color: var(--surface-color);
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 3rem;
+        }
+
+        footer p {
+            margin-bottom: 0;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+            section {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1>Projeto <span>Minas 2035</span></h1>
+            <p>Um modelo de desenvolvimento estadual baseado nas vocações regionais, na inovação tecnológica e na garantia de qualidade de vida para todos os mineiros. O futuro do estado construído através de cadeias produtivas integradas, educação de excelência e segurança econômica.</p>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <section id="topico-01">
+            <h2>01. Desenvolvimento Regional Inteligente</h2>
+            <p>O Projeto Minas 2035 reconhece que o estado de Minas Gerais possui dimensões territoriais e diversidade econômica de um país. Portanto, o desenvolvimento não pode ser genérico. O planejamento estratégico foca no fortalecimento das vocações específicas de cada uma das macrorregiões do estado, otimizando investimentos e potencializando a vantagem competitiva local:</p>
+            <ul class="styled-list">
+                <li><strong>Sul de Minas:</strong> Consolidação como polo de tecnologia de ponta, eletrônica, telecomunicações e agricultura de alta precisão (focada em cafés especiais e laticínios).</li>
+                <li><strong>Triângulo Mineiro:</strong> Transformação em um hub global de agronegócio altamente tecnificado, biotecnologia agrícola, logística de integração nacional e energias renováveis.</li>
+                <li><strong>Vale do Aço:</strong> Modernização para indústria 4.0, metalmecânica avançada, desenvolvimento de novos materiais e engenharia de precisão para exportação.</li>
+                <li><strong>Vale do Jequitinhonha:</strong> Foco intensivo na revolução energética com a cadeia do lítio (baterias), transição para uma bioeconomia sustentável, exploração de energia solar e turismo de base comunitária.</li>
+                <li><strong>Zona da Mata:</strong> Fortalecimento da economia criativa, confecções de alto valor agregado, moveleiro de design, polo educacional descentralizado e turismo histórico-cultural.</li>
+                <li><strong>Norte de Minas:</strong> Liderança nacional na geração de energia solar e eólica, agroindústria adaptada ao semiárido, fruticultura irrigada de precisão e atração de indústrias intensivas em energia verde.</li>
+                <li><strong>Região Metropolitana de Belo Horizonte (RMBH):</strong> Consolidação como centro nervoso financeiro, polo nacional de inovação (startups), serviços avançados, TI, saúde de alta complexidade e pesquisa biotecnológica.</li>
+            </ul>
+        </section>
+
+        <section id="topico-02">
+            <h2>02. Industrialização Próxima da Produção</h2>
+            <p>O modelo tradicional de exportar matéria-prima bruta para ser processada em outras regiões ou países condena o estado à dependência. O objetivo é garantir que o processamento inicial e a agregação de valor ocorram no próprio território onde o insumo é extraído ou colhido, retendo a riqueza, gerando empregos qualificados e impostos locais. Alguns exemplos práticos deste pilar:</p>
+            <ul class="styled-list">
+                <li><strong>Laranja (Cadeia de Cítricos):</strong> Em vez de apenas transportar a fruta crua em caminhões, instalação de indústrias de extração de suco concentrado, óleos essenciais para perfumaria, pectina para indústria farmacêutica e biomassa para ração animal nos próprios polos produtores.</li>
+                <li><strong>Leite (Cadeia Láctea):</strong> Fomento de laticínios locais com tecnologia para produção de queijos finos com certificação de origem, suplementos proteicos (Whey), fórmulas infantis e insumos lácteos especializados, rompendo a venda exclusiva do leite in natura para grandes conglomerados.</li>
+                <li><strong>Minério (Cadeia Minerária):</strong> Restrição progressiva à exportação de minério bruto sem beneficiamento. Implantação de plantas siderúrgicas e metalúrgicas para transformar o ferro em ligas especiais, aço para construção civil, peças automotivas e componentes para maquinário pesado, tudo próximo aos locais de extração.</li>
+            </ul>
+        </section>
+
+        <section id="topico-03">
+            <h2>03. Educação Voltada ao Desenvolvimento Regional</h2>
+            <p>A educação técnica e superior deve estar intimamente ligada às necessidades e potencialidades do seu entorno imediato. O ciclo contínuo de desenvolvimento prevê a criação de cidades especializadas, onde as instituições de ensino formam profissionais que encontrarão demanda qualificada na mesma região, evitando a fuga de cérebros. Este ciclo funciona da seguinte forma:</p>
+            <ul class="styled-list">
+                <li><strong>Mapeamento Vocacional:</strong> Identificação clara das indústrias e serviços que movem a região.</li>
+                <li><strong>Adaptação Curricular:</strong> Universidades estaduais, polos do CEFET e escolas técnicas (como a rede FAETEC mineira) com grades curriculares focadas na resolução de problemas da indústria local (ex: cursos de engenharia de minas perto de jazidas, agronomia de precisão no Triângulo).</li>
+                <li><strong>Integração Escola-Empresa:</strong> Programas robustos de estágio e trainee, onde os projetos de conclusão de curso dos alunos são aplicados diretamente nas empresas da região para melhorar processos e produtos.</li>
+                <li><strong>Fixação de Talentos:</strong> Com a indústria forte e a formação adequada, o jovem não precisa migrar para a capital para ter uma carreira de sucesso e altos salários, fortalecendo a economia das cidades do interior.</li>
+            </ul>
+        </section>
+
+        <section id="topico-04">
+            <h2>04. Centros de Pesquisa Regionais</h2>
+            <p>A inovação não deve estar restrita à capital. Serão implementados institutos e laboratórios de pesquisa avançada financiados de forma mista (público-privada) descentralizados pelo estado, focados em solucionar gargalos e criar patentes ligadas às forças locais:</p>
+            <ul class="styled-list">
+                <li><strong>Instituto de Biotecnologia Agropecuária (Triângulo Mineiro):</strong> Foco em melhoramento genético vegetal e animal, bioinsumos, controle de pragas e agricultura regenerativa de alta produtividade.</li>
+                <li><strong>Laboratório de Novos Materiais e Siderurgia Verde (Vale do Aço):</strong> Pesquisa voltada para produção de aço de baixo carbono, ligas metálicas leves para indústria aeroespacial e reaproveitamento sustentável de rejeitos industriais.</li>
+                <li><strong>Centro de Pesquisa em Energias Renováveis e Armazenamento (Norte e Jequitinhonha):</strong> Especializado em otimização de painéis solares para o clima semiárido, tecnologias de armazenamento de energia em baterias de lítio e produção de hidrogênio verde.</li>
+                <li><strong>Instituto de Tecnologia da Informação e Automação (Sul de Minas):</strong> Desenvolvimento de software embarcado, internet das coisas (IoT) para a indústria, robótica avançada e segurança cibernética.</li>
+                <li><strong>Laboratório de Design e Economia Circular (Zona da Mata):</strong> Focado no setor moveleiro e têxtil, desenvolvendo materiais sustentáveis, design ergonômico, moda inteligente e processos de reciclagem de tecidos e madeiras.</li>
+            </ul>
+        </section>
+
+        <section id="topico-05">
+            <h2>05. Infraestrutura como Investimento</h2>
+            <p>Nenhuma estratégia econômica funciona sem as artérias que ligam a produção aos mercados. O plano trata a infraestrutura não como custo, mas como vetor essencial de atração de capital e redução do custo logístico:</p>
+            <ul class="styled-list">
+                <li><strong>Malha Rodoviária de Alta Capacidade:</strong> Duplicação das principais rodovias estaduais e concessões com foco em qualidade, reduzindo o tempo de escoamento das safras e produção industrial, com atenção especial aos gargalos de acesso aos portos de outros estados.</li>
+                <li><strong>Revitalização Ferroviária:</strong> Criação de "Shortlines" (ferrovias curtas) integrando polos produtivos (como os grãos do Triângulo e o aço do Vale) aos grandes eixos de transporte nacional, diminuindo a dependência rodoviária para cargas pesadas.</li>
+                <li><strong>Conectividade e Internet 5G/6G:</strong> Cobertura de internet de altíssima velocidade em 100% dos distritos industriais e propriedades rurais focadas no agronegócio, habilitando a Indústria 4.0 e o campo conectado.</li>
+                <li><strong>Segurança Energética:</strong> Construção de novas linhas de transmissão de alta tensão, especialmente no Norte de Minas, para escoar a produção massiva de energia solar para o restante do país sem gargalos.</li>
+                <li><strong>Universalização do Saneamento Básico:</strong> Tratamento de água e esgoto tratados como pré-requisitos para a saúde pública, turismo e instalação de indústrias que exigem água de qualidade para seus processos produtivos.</li>
+                <li><strong>Aviação Regional:</strong> Modernização da rede de aeroportos regionais, facilitando viagens de negócios, integração nacional e logística de produtos de alto valor agregado (como chips, biofármacos e carga expressa).</li>
+            </ul>
+        </section>
+
+        <section id="topico-06">
+            <h2>06. Desenvolvimento Baseado em Cadeias Produtivas</h2>
+            <p>O conceito central é o mapeamento completo e o preenchimento dos elos faltantes de toda a cadeia de desdobramentos de uma matéria-prima até o produto final que chega ao consumidor. Um estado próspero domina todas as etapas do processo:</p>
+            <p>Exemplo da cadeia de desdobramento completa:</p>
+            <ul class="styled-list">
+                <li><strong>Insumo Básico:</strong> Extração sustentável do Lítio no Vale do Jequitinhonha.</li>
+                <li><strong>Processamento Químico:</strong> Beneficiamento local do minério para produção de carbonato e hidróxido de lítio de grau de pureza para baterias.</li>
+                <li><strong>Componentes:</strong> Instalação de fábricas para a produção de células de bateria e eletrodos no entorno.</li>
+                <li><strong>Produto Final:</strong> Atração de montadoras de veículos elétricos, drones e sistemas de armazenamento estacionário de energia solar, completando o ciclo dentro de Minas Gerais, retendo 100% da margem de lucro e gerando empregos tecnológicos.</li>
+            </ul>
+        </section>
+
+        <section id="topico-07">
+            <h2>07. Economia Local Forte</h2>
+            <p>O desenvolvimento não pode ser concentrado apenas nas grandes corporações. É necessário estimular a base da pirâmide para garantir a circulação de renda e a pujança dos pequenos municípios:</p>
+            <ul class="styled-list">
+                <li><strong>Circulação de Renda Regional:</strong> Incentivos para que as compras governamentais (merenda escolar, fardamento, materiais de construção) priorizem fornecedores, agricultores e indústrias locais, injetando o dinheiro dos impostos de volta na própria comunidade.</li>
+                <li><strong>Fomento ao Cooperativismo:</strong> Apoio logístico e crédito subsidiado para cooperativas de produtores rurais, artesãos e pequenos industriais. A união permite ganho de escala na compra de insumos e na negociação de preços de venda.</li>
+                <li><strong>Agricultura Familiar com Tecnologia:</strong> Programas de assistência técnica contínua (EMATER fortalecida) para levar manejo inteligente, irrigação por gotejamento, acesso a sementes melhoradas e canais de escoamento digital para a agricultura de pequena escala.</li>
+            </ul>
+        </section>
+
+        <section id="topico-08">
+            <h2>08. Inovação e Tecnologia</h2>
+            <p>Minas Gerais deve se consolidar como o estado que mais abraça a transformação digital da indústria clássica para a nova economia:</p>
+            <ul class="styled-list">
+                <li><strong>Parques Tecnológicos Integrados:</strong> Expansão dos parques tecnológicos (como o BHTec) para o interior, criando espaços físicos onde startups, investidores anjo e laboratórios de pesquisa compartilham infraestrutura e conhecimento.</li>
+                <li><strong>Automação e Digitalização Industrial:</strong> Linhas de financiamento do BDMG focadas na compra de braços robóticos, sensores IoT e sistemas de gestão avançada para pequenas e médias indústrias modernizarem seu parque fabril.</li>
+                <li><strong>Inteligência Artificial (IA) no Setor Público e Privado:</strong> Uso de IA para prever quebras de safra, otimizar rotas logísticas estaduais, acelerar o diagnóstico em saúde pública e reduzir a burocracia na aprovação de novos negócios.</li>
+                <li><strong>Bioeconomia e Sustentabilidade:</strong> Estímulo a startups que desenvolvem biomateriais, embalagens biodegradáveis derivadas de resíduos agrícolas e créditos de carbono, tornando a proteção ambiental um negócio altamente lucrativo.</li>
+            </ul>
+        </section>
+
+        <section id="topico-09">
+            <h2>09. Trabalho e Qualidade de Vida</h2>
+            <p>A produtividade do século XXI não se mede pelas horas exaustivas no chão de fábrica, mas pelos resultados. O projeto incentiva novas relações de trabalho que equilibram crescimento econômico e bem-estar humano:</p>
+            <ul class="styled-list">
+                <li><strong>Jornadas de Trabalho Flexíveis:</strong> Incentivo fiscal para empresas que adotarem modelos de banco de horas flexíveis e escalas focadas no ciclo circadiano e nas demandas familiares dos colaboradores.</li>
+                <li><strong>Home Office e Teletrabalho Integrado:</strong> Políticas estaduais de fomento ao trabalho remoto híbrido, reduzindo o trânsito nas grandes cidades (RMBH) e permitindo que os profissionais vivam no interior com alta qualidade de vida enquanto trabalham para empresas globais.</li>
+                <li><strong>Pilotos de Redução de Carga Horária:</strong> Apoio técnico e acompanhamento por institutos de pesquisa a empresas pioneiras que adotarem a jornada de 4 dias semanais sem redução salarial, documentando os impactos no aumento de produtividade e redução do absenteísmo por esgotamento (burnout).</li>
+            </ul>
+        </section>
+
+        <section id="topico-10">
+            <h2>10. Segurança Econômica das Famílias</h2>
+            <p>Um estado só é rico se o seu povo está livre da miséria e possui ferramentas para prosperar. A economia precisa prover bases sólidas contra choques externos:</p>
+            <ul class="styled-list">
+                <li><strong>Transferência de Renda Inteligente:</strong> Programas estaduais de complementação de renda atrelados à frequência escolar, qualificação profissional dos pais e consultas de saúde preventiva.</li>
+                <li><strong>Moedas Sociais Locais:</strong> Estímulo à criação de moedas sociais em bairros de periferia ou pequenos municípios, garantindo que o recurso circule dentro do comércio local, fortalecendo a padaria, o mercadinho e o prestador de serviço da região.</li>
+                <li><strong>Microcrédito Desburocratizado:</strong> Linhas de crédito estaduais voltadas exclusivamente para mulheres chefes de família, jovens empreendedores e pequenos comerciantes informais que desejam estruturar ou formalizar o seu negócio sem garantias reais exorbitantes.</li>
+                <li><strong>Fundos Regionais de Desenvolvimento:</strong> Fundo financeiro abastecido por uma fração dos royalties da mineração, destinado exclusivamente para investir em educação, saúde e novas indústrias nos municípios impactados pela extração, garantindo seu futuro pós-mineração.</li>
+            </ul>
+        </section>
+
+        <section id="topico-11">
+            <h2>11. Economia do Conhecimento</h2>
+            <p>Transição da riqueza baseada exclusivamente no solo (minério, café) para a riqueza baseada na mente e na criatividade do povo mineiro:</p>
+            <ul class="styled-list">
+                <li><strong>Centros de Excelência em Dados (Big Data):</strong> Fomento para instalação de grandes Data Centers aproveitando as áreas com boa conectividade e alta produção de energia renovável, criando empregos de alta remuneração em análise de dados.</li>
+                <li><strong>Engenharia de Software de Classe Mundial:</strong> Ampliação do ecossistema de TI, promovendo a formação intensiva de programadores desde o ensino médio para suprir a demanda global, exportando software e soluções em vez de commodities.</li>
+                <li><strong>Biotecnologia e Farmacêutica:</strong> Fortalecimento dos arranjos produtivos voltados para a saúde, fabricação de vacinas, medicamentos genéricos de alto valor e pesquisa genômica (em sinergia com o ecossistema da UFMG e centros de saúde).</li>
+                <li><strong>Exportação de Serviços de Energias Renováveis:</strong> Formação de empresas e consultorias mineiras especializadas na implementação de grandes parques solares e eólicos, vendendo este know-how para outros estados e países da América Latina.</li>
+            </ul>
+        </section>
+
+        <section id="topico-12">
+            <h2>12. Minas como Referência Nacional</h2>
+            <p>A conclusão do Projeto Minas 2035 prevê que, ao seguir rigorosamente este planejamento pautado no respeito às diferenças regionais e investimento massivo em educação, tecnologia e infraestrutura, Minas Gerais se consolidará não apenas como o estado que mais cresce, mas como o principal modelo civilizatório do Brasil.</p>
+            <p>Será o estado reconhecido por exportar produtos de alto valor tecnológico, possuir os menores índices de desigualdade social, deter a melhor malha educacional integrada à indústria e garantir oportunidades reais para que seus cidadãos vivam com dignidade, segurança e sustentabilidade. Uma terra onde a tradição se encontra com o futuro.</p>
+        </section>
+
+        <!-- Seção de Propostas Complementares -->
+        <section id="propostas-complementares">
+            <h2>Propostas Complementares</h2>
+            <p>Ações e projetos acessórios estruturantes para acelerar a transição econômica do Projeto Minas 2035:</p>
+            
+            <div class="grid-cards">
+                <div class="card">
+                    <h4>Banco de Investimento Regional (BIR)</h4>
+                    <p>Agência de fomento estadual remodelada para investir prioritariamente em startups locais, agricultura de precisão e modernização de pequenos laticínios, atuando como sócio investidor no risco das inovações regionais.</p>
+                </div>
+                
+                <div class="card">
+                    <h4>Corredores Econômicos Temáticos</h4>
+                    <p>Eixos logísticos interligando polos afins. Exemplo: o "Corredor da Inovação do Sul", unindo cidades focadas em eletrônica, e o "Eixo Bio-Agro", cruzando o Triângulo com infraestrutura rápida para escoamento de perecíveis de alto valor.</p>
+                </div>
+
+                <div class="card">
+                    <h4>Rede de FabLabs Públicos</h4>
+                    <p>Instalação de Laboratórios de Fabricação Digital (impressoras 3D, cortadoras a laser, maquinário CNC) acessíveis a estudantes de escolas públicas, artesãos e pequenos empreendedores para prototipagem rápida de novos produtos.</p>
+                </div>
+
+                <div class="card">
+                    <h4>Programa de Requalificação Profissional</h4>
+                    <p>Bolsas de estudo integrais patrocinadas pelo estado para que trabalhadores de indústrias em declínio (ex: mineração tradicional) aprendam novas habilidades ligadas à programação, energias verdes e robótica de forma remunerada.</p>
+                </div>
+
+                <div class="card">
+                    <h4>Polo Tecnológico de Energias Renováveis</h4>
+                    <p>Criação de uma zona econômica especial no Norte de Minas focada exclusivamente na atração de fábricas de painéis solares, inversores e pás eólicas, consolidando a cadeia produtiva verde no estado.</p>
+                </div>
+
+                <div class="card">
+                    <h4>Governo Digital e Dados Abertos</h4>
+                    <p>Disponibilização total das bases de dados governamentais não sensíveis para que startups civis criem aplicativos inovadores voltados para mobilidade urbana, turismo integrado e transparência dos gastos públicos regionais.</p>
+                </div>
+
+                <div class="card">
+                    <h4>Cidades Inteligentes no Interior</h4>
+                    <p>Fundo de investimento para modernizar a gestão urbana de municípios do interior, com sistemas inteligentes de semáforos, monitoramento de segurança via IA, iluminação pública de LED conectada e gestão automatizada de resíduos.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2035 Projeto Minas 2035. Ideias para uma Minas Melhor.</p>
+    </footer>
+
+</body>
+</html>
